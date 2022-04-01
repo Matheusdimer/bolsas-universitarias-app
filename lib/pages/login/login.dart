@@ -1,3 +1,6 @@
+import 'package:app/auth/auth.service.dart';
+import 'package:app/model/user.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,10 +11,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _authService = AuthService.instance;
   final _formKey = GlobalKey<FormState>();
 
-  void _login() {
-    Navigator.of(context).pushNamed('/', arguments: true);
+  final _userController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool loading = false;
+
+  Future<void> _login() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    final user = User(_userController.text, _passwordController.text);
+
+    try {
+      setState(() {
+        loading = true;
+      });
+      await _authService.login(user);
+      Navigator.of(context).popAndPushNamed('/');
+    } on DioError catch (error) {
+      print(error);
+      if (error.response?.statusCode == 401) {
+        final snackBar = _buildSnackBar(error.response?.data['message']);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (error) {
+      print(error);
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  SnackBar _buildSnackBar(final String text) {
+    return SnackBar(content: Text(text));
   }
 
   @override
@@ -34,21 +71,38 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: const InputDecoration(
                       label: Text('Usuário'),
                     ),
+                    controller: _userController,
+                    validator: (value) {
+                      return value == null || value.isEmpty
+                          ? 'Por favor, digite um usuário'
+                          : null;
+                    },
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
                     obscureText: true,
+                    controller: _passwordController,
                     decoration: const InputDecoration(
                       label: Text('Senha'),
                     ),
+                    validator: (value) {
+                      return value == null || value.isEmpty
+                          ? 'Por favor, digite uma senha'
+                          : null;
+                    },
                   ),
                   const SizedBox(height: 15),
                   ElevatedButton(
                     onPressed: _login,
-                    child: const Text(
-                      'ENTRAR',
-                      textScaleFactor: 1.2,
-                    ),
+                    child: loading
+                        ? const SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text('ENTRAR'),
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size.fromHeight(50),
                     ),

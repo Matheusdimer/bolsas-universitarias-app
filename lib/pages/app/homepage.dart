@@ -1,6 +1,9 @@
+import 'package:app/auth/auth.service.dart';
+import 'package:app/pages/app/account/account.dart';
 import 'package:app/pages/app/bolsas/bolsas.dart';
 import 'package:app/pages/app/candidaturas/candidaturas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,9 +13,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _authService = AuthService.instance;
+
   final List<Widget> _tabs = [
     const BolsasList(),
     const CandidaturasList(),
+    const AccountInfo(),
   ];
 
   int _tab = 0;
@@ -25,7 +31,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    _verifyLogin();
     super.initState();
+  }
+
+  void _verifyLogin() {
+    if (!_authService.loggedIn()) {
+      SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+        Navigator.of(context).popAndPushNamed('/login');
+      });
+    }
   }
 
   @override
@@ -45,6 +60,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.checklist),
             label: 'Inscrições',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: 'Conta',
+          )
         ],
         currentIndex: _tab,
         onTap: _setTab,

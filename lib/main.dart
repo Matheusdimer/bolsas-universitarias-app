@@ -1,3 +1,6 @@
+import 'package:app/auth/auth.service.dart';
+import 'package:app/pages/app/account/address.dart';
+import 'package:app/pages/app/account/my_account.dart';
 import 'package:app/pages/app/homepage.dart';
 import 'package:app/pages/login/login.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,8 @@ void main() {
   final systemTheme = SystemUiOverlayStyle.light
       .copyWith(systemNavigationBarColor: Colors.white);
   SystemChrome.setSystemUIOverlayStyle(systemTheme);
+
+  AuthService.instance.init();
 }
 
 class MyApp extends StatelessWidget {
@@ -30,6 +35,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
+        '/account': (context) => const MyAccountPage(),
+        '/address': (context) => const AddressPage()
       },
     );
   }

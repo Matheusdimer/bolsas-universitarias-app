@@ -1,5 +1,7 @@
+import 'package:app/components/error_page.dart';
 import 'package:app/components/loading-list.dart';
-import 'package:app/pages/app/bolsas/bolsas.controller.dart';
+import 'package:app/pages/app/bolsas/bolsas.service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -11,22 +13,11 @@ class BolsasList extends StatefulWidget {
 }
 
 class _BolsasListState extends State<BolsasList> {
-  final controller = BolsasController();
+  final _service = BolsasService();
 
   @override
   void initState() {
-    controller.loadBolsas();
     super.initState();
-  }
-
-  void _redirectLogin () {
-    final logged = ModalRoute.of(context)!.settings.arguments;
-
-    if (logged != null && logged as bool == true) return;
-
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-      Navigator.of(context).popAndPushNamed('/login');
-    });
   }
 
   Widget _buildItem(final dynamic bolsa) {
@@ -45,27 +36,39 @@ class _BolsasListState extends State<BolsasList> {
           )
         ],
       ),
-      onTap: () { },
+      onTap: () {},
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List>(
-      future: controller.bolsas,
+      future: _service.findAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final bolsas = snapshot.data ?? [];
 
           return RefreshIndicator(
-            onRefresh: controller.loadBolsas,
+            onRefresh: () => _service.findAll(),
             child: ListView.builder(
               itemBuilder: (context, index) => _buildItem(bolsas[index]),
               itemCount: bolsas.length,
             ),
           );
         } else if (snapshot.hasError) {
-          _redirectLogin();
+          print(snapshot.error);
+
+          if (snapshot.error is DioError) {
+            final error = snapshot.error as DioError;
+
+            if (error.response?.statusCode == 401) {
+              SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+                Navigator.of(context).popAndPushNamed('/login');
+              });
+            }
+          } else {
+            return ErrorPage(error: snapshot.error.toString());
+          }
         }
 
         return const Center(

@@ -1,34 +1,21 @@
+import 'package:app/auth/auth.service.dart';
+import 'package:app/config/dio-config.dart';
+import 'package:dio/dio.dart';
+
 enum TipoBolsa { federal, municipal, estadual, institucional }
 
 class BolsasService {
-  Future<List<dynamic>> findAll() {
-    var list = [
-      {
-        'id': 1,
-        'nome': 'ProUni',
-        'descricao': 'Essa bolsa é muito legal',
-        'tipo': TipoBolsa.federal,
-        'editalAtivo': true
-      },
-      {
-        'id': 2,
-        'nome': 'Bolsa PMC',
-        'descricao': 'Essa bolsa é muito legal',
-        'tipo': TipoBolsa.municipal,
-        'editalAtivo': true
-      },
-      {
-        'id': 3,
-        'nome': 'UNIEDU',
-        'descricao': 'Essa bolsa é muito legal',
-        'tipo': TipoBolsa.estadual,
-        'editalAtivo': false
-      }
-    ];
+  final Dio _http = HttpClient().client;
+  final AuthService _authService = AuthService.instance;
 
-    return Future.delayed(
-      const Duration(seconds: 2),
-      () => list,
-    );
+  Future<List> findAll() {
+    return _http
+        .get<List>(
+          'bolsas/',
+          options: Options(
+            headers: {'Authorization': 'Bearer ${_authService.token}'},
+          ),
+        )
+        .then((response) => response.data ?? []);
   }
 }
