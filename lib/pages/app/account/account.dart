@@ -1,5 +1,6 @@
 import 'package:app/auth/auth.service.dart';
 import 'package:app/components/alert_dialog.dart';
+import 'package:app/config/constants.dart';
 import 'package:app/pages/app/account/tile_button.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +14,10 @@ class AccountInfo extends StatefulWidget {
 class _AccountInfoState extends State<AccountInfo> {
   final _authService = AuthService.instance;
 
-  _logout() async {
+  void _logout() async {
     await _authService.logout();
-    Navigator.of(context).popAndPushNamed('/login');
+    final navigator = Navigator.of(context);
+    navigator.pushNamed('/login');
   }
 
   @override
@@ -27,13 +29,15 @@ class _AccountInfoState extends State<AccountInfo> {
           padding: const EdgeInsets.all(50),
           child: Center(
             child: Column(
-              children: [
-                Icon(
-                  Icons.account_circle,
-                  size: 150,
-                  color: Colors.grey.shade700,
+              children: const [
+                CircleAvatar(
+                  foregroundImage: NetworkImage('$apiUrl/arquivos/1'),
+                  radius: 70,
                 ),
-                const Text(
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
                   'Matheus Dimer',
                   style: TextStyle(fontSize: 25),
                 )

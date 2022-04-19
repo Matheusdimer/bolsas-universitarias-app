@@ -29,7 +29,7 @@ class AuthService {
   }
 
   Future<String> login(User user) async {
-    final response = await http.post('/auth', data: user.toJson());
+    final response = await http.post('/auth/', data: user.toJson());
     _token = response.data['token'];
 
     if (_token == null) {

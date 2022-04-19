@@ -1,3 +1,4 @@
+import 'package:app/components/empty_list.dart';
 import 'package:flutter/material.dart';
 
 class CandidaturasList extends StatelessWidget {
@@ -5,8 +6,6 @@ class CandidaturasList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Candidaturas"),
-    );
+    return const EmptyList(message: 'Nenhuma inscrição realizada.');
   }
 }

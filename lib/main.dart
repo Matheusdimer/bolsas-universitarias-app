@@ -1,6 +1,7 @@
 import 'package:app/auth/auth.service.dart';
 import 'package:app/pages/app/account/address.dart';
 import 'package:app/pages/app/account/my_account.dart';
+import 'package:app/pages/app/bolsas/detail/bolsas.detail.dart';
 import 'package:app/pages/app/homepage.dart';
 import 'package:app/pages/login/login.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Minhas bolsas',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.indigo,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
         '/account': (context) => const MyAccountPage(),
-        '/address': (context) => const AddressPage()
+        '/address': (context) => const AddressPage(),
+        '/details': (context) => const BolsasDetail()
       },
     );
   }
