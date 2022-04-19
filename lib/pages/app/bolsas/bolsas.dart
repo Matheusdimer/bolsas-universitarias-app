@@ -1,3 +1,4 @@
+import 'package:app/components/badge.dart';
 import 'package:app/components/error_page.dart';
 import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading-list.dart';
@@ -72,17 +73,25 @@ class _BolsasListState extends State<BolsasList> {
                 },
               ),
             ExpansionTile(
-              title: Text(
-                bolsa.nome,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Badge(
-                text: bolsa.editalAtivo == true ? 'DISPONÍVEL' : 'INDISPONÍVEL',
-                type: bolsa.editalAtivo == true
-                    ? BadgeType.success
-                    : BadgeType.error,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    bolsa.nome,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Badge(
+                    text: bolsa.editalAtivo == true
+                        ? 'DISPONÍVEL'
+                        : 'INDISPONÍVEL',
+                    type: bolsa.editalAtivo == true
+                        ? BadgeType.success
+                        : BadgeType.error,
+                    fontSize: 14,
+                  ),
+                ],
               ),
               initiallyExpanded: true,
               childrenPadding: const EdgeInsets.all(16),
@@ -132,21 +141,20 @@ class _BolsasListState extends State<BolsasList> {
   Widget build(BuildContext context) {
     return FutureTracker<List<Bolsa>>(
       future: _load(),
-      completed: (bolsas) =>
-          RefreshIndicator(
-            onRefresh: _load,
-            child: bolsas.isEmpty
-                ? const EmptyList(
-              message: 'Nenhuma bolsa disponível.',
-            )
-                : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemBuilder: (context, index) => _buildItem(bolsas[index]),
-                itemCount: bolsas.length,
+      completed: (bolsas) => RefreshIndicator(
+        onRefresh: _load,
+        child: bolsas.isEmpty
+            ? const EmptyList(
+                message: 'Nenhuma bolsa disponível.',
+              )
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  itemBuilder: (context, index) => _buildItem(bolsas[index]),
+                  itemCount: bolsas.length,
+                ),
               ),
-            ),
-          ),
+      ),
       loading: const LoadingCardList(
         size: 2,
         hasImage: true,
@@ -163,54 +171,6 @@ class _BolsasListState extends State<BolsasList> {
         }
         return ErrorPage(error: error.toString());
       },
-    );
-  }
-}
-
-enum BadgeType { error, warn, success, info, white }
-
-class Badge extends StatelessWidget {
-  final String text;
-  final BadgeType type;
-
-  const Badge({
-    Key? key,
-    required this.type,
-    required this.text,
-  }) : super(key: key);
-
-  MaterialColor getColor() {
-    switch (type) {
-      case BadgeType.error:
-        return Colors.red;
-      case BadgeType.success:
-        return Colors.green;
-      case BadgeType.warn:
-        return Colors.yellow;
-      case BadgeType.info:
-        return Colors.cyan;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var color = getColor();
-
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: color.withOpacity(0.3),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: color.shade900,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
     );
   }
 }
