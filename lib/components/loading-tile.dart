@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class LoadingTile extends StatelessWidget {
   final double width;
   final double height;
+  final BorderRadius? borderRadius;
 
-  const LoadingTile({Key? key, this.width = 40, this.height = 40}) : super(key: key);
+  const LoadingTile({Key? key, this.width = 40, this.height = 40, this.borderRadius}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +13,9 @@ class LoadingTile extends StatelessWidget {
       width: width,
       height: height,
       child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xAAAAAAAA),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+        decoration: BoxDecoration(
+          color: const Color(0xAAAAAAAA),
+          borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(5)),
         ),
       ),
     );

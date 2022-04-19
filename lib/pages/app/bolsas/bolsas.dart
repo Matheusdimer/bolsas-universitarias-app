@@ -1,6 +1,7 @@
 import 'package:app/components/error_page.dart';
 import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading-list.dart';
+import 'package:app/components/loading-tile.dart';
 import 'package:app/config/constants.dart';
 import 'package:app/model/bolsa.dart';
 import 'package:app/pages/app/bolsas/bolsas.service.dart';
@@ -51,9 +52,24 @@ class _BolsasListState extends State<BolsasList> {
             if (bolsa.fotoId != null)
               Image.network(
                 '$apiUrl/arquivos/${bolsa.fotoId}',
+                key: Key(bolsa.fotoId.toString()),
                 fit: BoxFit.fitWidth,
                 height: 150,
                 width: double.infinity,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const CustomShimmer(
+                    child: LoadingTile(
+                      width: double.infinity,
+                      height: 150,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5),
+                      ),
+                    ),
+                  );
+                },
               ),
             ExpansionTile(
               title: Text(
@@ -116,25 +132,24 @@ class _BolsasListState extends State<BolsasList> {
   Widget build(BuildContext context) {
     return FutureTracker<List<Bolsa>>(
       future: _load(),
-      completed: (bolsas) => RefreshIndicator(
-        onRefresh: _load,
-        child: bolsas.isEmpty
-            ? const EmptyList(
-                message: 'Nenhuma bolsa disponível.',
-              )
-            : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  itemBuilder: (context, index) => _buildItem(bolsas[index]),
-                  itemCount: bolsas.length,
-                ),
+      completed: (bolsas) =>
+          RefreshIndicator(
+            onRefresh: _load,
+            child: bolsas.isEmpty
+                ? const EmptyList(
+              message: 'Nenhuma bolsa disponível.',
+            )
+                : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemBuilder: (context, index) => _buildItem(bolsas[index]),
+                itemCount: bolsas.length,
               ),
-      ),
-      loading: const Center(
-        child: LoadingList(
-          size: 8,
-          hasImage: true,
-        ),
+            ),
+          ),
+      loading: const LoadingCardList(
+        size: 2,
+        hasImage: true,
       ),
       error: (error) {
         if (error is DioError) {
