@@ -17,7 +17,7 @@ Bolsa _$BolsaFromJson(Map<String, dynamic> json) {
     (json['documentos'] as List<dynamic>?)
         ?.map((e) => Documento.fromJson(e))
         .toList(),
-    json['editalAtivo'] as bool,
+    json['editalAtivo'] as bool?,
     json['tipoBolsa'] as String,
   )..fotoId = json['fotoId'] as int?;
 }

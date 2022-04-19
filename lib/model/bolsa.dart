@@ -11,7 +11,7 @@ class Bolsa {
   String descricao;
   List<Requisito>? requisitos;
   List<Documento>? documentos;
-  bool editalAtivo;
+  bool? editalAtivo;
   String tipoBolsa;
   int? fotoId;
 

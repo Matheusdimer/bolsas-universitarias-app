@@ -12,11 +12,23 @@ class BolsasService {
   Future<List<Bolsa>> findAll() {
     return _http
         .get<List>(
-      '/bolsas/',
-      options: Options(
-        headers: {'Authorization': 'Bearer ${_authService.token}'},
-      ),
-    )
-        .then((response) => response.data?.map((e) => Bolsa.fromJson(e)).toList() ?? []);
+          '/bolsas/',
+          options: Options(
+            headers: {'Authorization': 'Bearer ${_authService.token}'},
+          ),
+        )
+        .then((response) =>
+            response.data?.map((e) => Bolsa.fromJson(e)).toList() ?? []);
+  }
+
+  Future<Bolsa> find(int id) {
+    return _http
+        .get<Bolsa>(
+          '/bolsas/',
+          options: Options(
+            headers: {'Authorization': 'Bearer ${_authService.token}'},
+          ),
+        )
+        .then((response) => Bolsa.fromJson(response.data));
   }
 }
