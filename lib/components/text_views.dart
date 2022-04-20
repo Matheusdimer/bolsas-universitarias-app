@@ -101,6 +101,24 @@ class TextSmallBold extends StatelessWidget {
   }
 }
 
+class TextSmallWeak extends StatelessWidget {
+  final String text;
+  final double? size;
+
+  const TextSmallWeak({Key? key, required this.text, this.size}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: size ?? small,
+        fontWeight: FontWeight.w300,
+      ),
+    );
+  }
+}
+
 class TextNormalWeak extends StatelessWidget {
   final String text;
 
@@ -120,6 +138,7 @@ class TextNormalWeak extends StatelessWidget {
 
 class CustomDivider extends StatelessWidget {
   final double height;
+
   const CustomDivider({Key? key, this.height = 0}) : super(key: key);
 
   @override
@@ -131,4 +150,3 @@ class CustomDivider extends StatelessWidget {
     );
   }
 }
-

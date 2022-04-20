@@ -1,4 +1,5 @@
 import 'package:app/components/badge.dart';
+import 'package:app/components/file_card.dart';
 import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading_detail.dart';
 import 'package:app/components/text_views.dart';
@@ -122,50 +123,24 @@ class _BolsasDetailState extends State<BolsasDetail> {
                       ),
                       const TextSubTitle(text: 'Documentos'),
                       const SizedBox(height: 20),
-                      GridView.count(
-                          crossAxisCount: 2,
-                          shrinkWrap: true,
-                          children: (bolsa.documentos ?? [])
-                              .map(
-                                (documento) => Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 110,
-                                          width: double.infinity,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade200),
-                                            child: const Center(
-                                              child: Icon(
-                                                Icons.insert_drive_file,
-                                                size: 35,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 16, right: 16),
-                                            alignment: Alignment.centerLeft,
-                                            child: TextNormalBold(
-                                              text: documento.nome,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                      if (bolsa.documentos != null &&
+                          (bolsa.documentos as List).isNotEmpty)
+                        GridView.count(
+                            crossAxisCount: 2,
+                            shrinkWrap: true,
+                            children: (bolsa.documentos ?? [])
+                                .map(
+                                  (documento) => FileCard(
+                                    id: documento.arquivoId as int,
+                                    description: documento.nome,
+                                    type: FileCardType.grid,
                                   ),
-                                ),
-                              )
-                              .toList())
+                                )
+                                .toList())
+                      else
+                        const Center(
+                          child: TextNormal(text: 'Nenhum documento por aqui.'),
+                        )
                     ],
                   ),
                 ),
