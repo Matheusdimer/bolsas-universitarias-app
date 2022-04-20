@@ -27,7 +27,9 @@ class LoadingDetail extends StatelessWidget {
               LoadingTile(width: double.infinity, height: 30,),
               SizedBox(height: 20,),
               LoadingTile(width: double.infinity, height: 30,),
-              SizedBox(height: 20,),
+              SizedBox(height: 30,),
+
+              LoadingTile(width: 180, height: 30,),
             ],
           ),
         ),
