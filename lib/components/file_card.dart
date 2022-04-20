@@ -74,7 +74,7 @@ class _FileCardState extends State<FileCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 110,
+          height: 100,
           width: double.infinity,
           child: Container(
             decoration: BoxDecoration(color: Colors.grey.shade200),
