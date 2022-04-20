@@ -3,9 +3,11 @@ import 'package:app/components/error_page.dart';
 import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading-list.dart';
 import 'package:app/components/loading-tile.dart';
+import 'package:app/components/text_views.dart';
 import 'package:app/config/constants.dart';
 import 'package:app/model/bolsa.dart';
 import 'package:app/pages/app/bolsas/bolsas.service.dart';
+import 'package:app/services/arquivos.service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -21,6 +23,7 @@ class BolsasList extends StatefulWidget {
 
 class _BolsasListState extends State<BolsasList> {
   final _service = BolsasService();
+  final _arquivoService = ArquivoService();
 
   late Future<List<Bolsa>> bolsas;
 
@@ -37,22 +40,22 @@ class _BolsasListState extends State<BolsasList> {
     return bolsas;
   }
 
-  _openDetails(int? id) {
-    Navigator.of(context).pushNamed('/details', arguments: id);
+  _openDetails(Bolsa bolsa) {
+    Navigator.of(context).pushNamed('/details', arguments: bolsa);
   }
 
   Widget _buildItem(final Bolsa bolsa) {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: InkWell(
-        onTap: () => _openDetails(bolsa.id),
+        onTap: () => _openDetails(bolsa),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (bolsa.fotoId != null)
               Image.network(
-                '$apiUrl/arquivos/${bolsa.fotoId}',
+                _arquivoService.getUrl(bolsa.fotoId),
                 key: Key(bolsa.fotoId.toString()),
                 fit: BoxFit.fitWidth,
                 height: 150,
@@ -107,15 +110,10 @@ class _BolsasListState extends State<BolsasList> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Tipo da bolsa',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    const TextSmallBold(text: 'Tipo da bolsa'),
                     Badge(type: BadgeType.info, text: bolsa.tipoBolsa),
                   ],
-                )
+                ),
               ],
             ),
             ButtonBar(
@@ -126,7 +124,7 @@ class _BolsasListState extends State<BolsasList> {
                   child: const Text('INSCREVER-SE'),
                 ),
                 TextButton(
-                  onPressed: () => _openDetails(bolsa.id),
+                  onPressed: () => _openDetails(bolsa),
                   child: const Text('VER DETALHES'),
                 ),
               ],
@@ -148,7 +146,7 @@ class _BolsasListState extends State<BolsasList> {
                 message: 'Nenhuma bolsa disponível.',
               )
             : Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                 child: ListView.builder(
                   itemBuilder: (context, index) => _buildItem(bolsas[index]),
                   itemCount: bolsas.length,

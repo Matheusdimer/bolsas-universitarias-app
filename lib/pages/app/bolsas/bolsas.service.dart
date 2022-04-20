@@ -23,8 +23,8 @@ class BolsasService {
 
   Future<Bolsa> find(int id) {
     return _http
-        .get<Bolsa>(
-          '/bolsas/',
+        .get(
+          '/bolsas/$id',
           options: Options(
             headers: {'Authorization': 'Bearer ${_authService.token}'},
           ),

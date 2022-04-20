@@ -8,7 +8,7 @@ part of 'bolsa.dart';
 
 Bolsa _$BolsaFromJson(Map<String, dynamic> json) {
   return Bolsa(
-    json['id'] as int?,
+    json['id'] as int,
     json['nome'] as String,
     json['descricao'] as String,
     (json['requisitos'] as List<dynamic>?)

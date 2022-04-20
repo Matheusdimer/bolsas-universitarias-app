@@ -6,7 +6,7 @@ part 'bolsa.g.dart';
 
 @JsonSerializable()
 class Bolsa {
-  int? id;
+  int id;
   String nome;
   String descricao;
   List<Requisito>? requisitos;
