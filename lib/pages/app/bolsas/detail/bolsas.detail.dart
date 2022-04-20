@@ -32,8 +32,8 @@ class _BolsasDetailState extends State<BolsasDetail> {
         ),
         bottomNavigationBar: bolsa.editalAtivo == null
             ? Material(
-              elevation: 10,
-              child: Padding(
+                elevation: 10,
+                child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: SizedBox(
                     height: 50,
@@ -44,7 +44,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
                     ),
                   ),
                 ),
-            )
+              )
             : null,
         body: SingleChildScrollView(
           child: Column(
@@ -101,20 +101,71 @@ class _BolsasDetailState extends State<BolsasDetail> {
                         children: (bolsa.requisitos ?? [])
                             .map(
                               (requisito) => Padding(
-                                padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                                padding: const EdgeInsets.only(
+                                    top: 8, bottom: 8, left: 8),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const TextTitle(text: '• '),
                                     Flexible(
-                                      child: TextNormal(text: requisito.descricao),
+                                      child:
+                                          TextNormal(text: requisito.descricao),
                                     ),
                                   ],
                                 ),
                               ),
                             )
                             .toList(),
-                      )
+                      ),
+                      const CustomDivider(
+                        height: 40,
+                      ),
+                      const TextSubTitle(text: 'Documentos'),
+                      const SizedBox(height: 20),
+                      GridView.count(
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          children: (bolsa.documentos ?? [])
+                              .map(
+                                (documento) => Card(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 110,
+                                          width: double.infinity,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey.shade200),
+                                            child: const Center(
+                                              child: Icon(
+                                                Icons.insert_drive_file,
+                                                size: 35,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 16, right: 16),
+                                            alignment: Alignment.centerLeft,
+                                            child: TextNormalBold(
+                                              text: documento.nome,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList())
                     ],
                   ),
                 ),

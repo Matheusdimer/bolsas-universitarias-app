@@ -146,7 +146,7 @@ class _BolsasListState extends State<BolsasList> {
                 message: 'Nenhuma bolsa disponível.',
               )
             : Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                padding: const EdgeInsets.only(left: 8, right: 8),
                 child: ListView.builder(
                   itemBuilder: (context, index) => _buildItem(bolsas[index]),
                   itemCount: bolsas.length,
