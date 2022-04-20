@@ -4,6 +4,7 @@ import 'package:app/pages/app/account/my_account.dart';
 import 'package:app/pages/app/bolsas/detail/bolsas.detail.dart';
 import 'package:app/pages/app/homepage.dart';
 import 'package:app/pages/login/login.dart';
+import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'Minhas bolsas',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: themeColor,
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
