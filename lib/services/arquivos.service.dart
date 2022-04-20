@@ -4,6 +4,9 @@ import 'package:app/config/dio-config.dart';
 import 'package:app/model/arquivo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 const Map<String, IconData> icons = {
   'pdf': Icons.picture_as_pdf,
@@ -43,5 +46,24 @@ class ArquivoService {
     }
 
     return icons[extension] ?? defaultIcon;
+  }
+
+  Future download({required Arquivo arquivo, ProgressCallback? progressCallback}) async {
+    final url = getUrl(arquivo.id);
+
+    bool hasPermission = await _requestWritePermission();
+    if (!hasPermission) return;
+
+    final directory = await getApplicationDocumentsDirectory();
+    final path = '${directory.path}/${arquivo.nome}';
+
+    await _http.download(url, path, onReceiveProgress: progressCallback);
+
+    OpenFile.open(path);
+  }
+
+  Future<bool> _requestWritePermission() async {
+    await Permission.storage.request();
+    return await Permission.storage.request().isGranted;
   }
 }

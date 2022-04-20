@@ -28,6 +28,8 @@ class _FileCardState extends State<FileCard> {
 
   Arquivo? arquivo;
 
+  double? downloadProgress;
+
   @override
   void initState() {
     super.initState();
@@ -37,12 +39,31 @@ class _FileCardState extends State<FileCard> {
         }));
   }
 
+  _download() async {
+    if (arquivo == null) return;
+
+    await _service.download(
+      arquivo: arquivo!,
+      progressCallback: _downloadCallback,
+    );
+
+    setState(() {
+      downloadProgress = null;
+    });
+  }
+
+  void _downloadCallback(received, total) {
+    setState(() {
+      downloadProgress = received / total;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: InkWell(
-        onTap: () {},
+        onTap: _download,
         child: widget.type == FileCardType.grid
             ? buildGridCard()
             : ListTile(
@@ -56,12 +77,15 @@ class _FileCardState extends State<FileCard> {
                     height: double.infinity,
                     width: 50,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.grey.shade200
-                    ),
-                    child: Icon(
-                      _service.getIcon(arquivo?.extensao),
-                    ),
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey.shade200),
+                    child: downloadProgress == null
+                        ? Icon(
+                            _service.getIcon(arquivo?.extensao),
+                          )
+                        : CircularProgressIndicator(
+                            value: downloadProgress,
+                          ),
                   ),
                 ),
               ),
@@ -79,10 +103,13 @@ class _FileCardState extends State<FileCard> {
           child: Container(
             decoration: BoxDecoration(color: Colors.grey.shade200),
             child: Center(
-              child: Icon(
-                _service.getIcon(arquivo?.extensao),
-                size: 35,
-              ),
+              child: downloadProgress == null
+                  ? Icon(
+                      _service.getIcon(arquivo?.extensao),
+                    )
+                  : CircularProgressIndicator(
+                      value: downloadProgress,
+                    ),
             ),
           ),
         ),
