@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:app/config/constants.dart';
+import 'package:app/model/aluno.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../model/user.dart';
 
 class AuthService {
-  final http = Dio(
+  final _http = Dio(
     BaseOptions(
       baseUrl: apiUrl,
       contentType: ContentType.json.value,
@@ -22,6 +23,8 @@ class AuthService {
 
   String? _token;
 
+  static AuthService get instance => _instance;
+
   Future<void> init() async {
     if (token == null) {
       _token = await _storage.read(key: 'token');
@@ -29,7 +32,7 @@ class AuthService {
   }
 
   Future<String> login(User user) async {
-    final response = await http.post('/auth/', data: user.toJson());
+    final response = await _http.post('/auth/', data: user.toJson());
     _token = response.data['token'];
 
     if (_token == null) {
@@ -50,5 +53,15 @@ class AuthService {
 
   bool loggedIn() => _token != null;
 
-  static AuthService get instance => _instance;
+  Future<User> updateUser(User user) {
+    return _http
+        .put('/users/${user.id}',
+            data: user.toJson(),
+            options: Options(
+              headers: {
+                'Authorization': 'Bearer $token'
+              },
+            ))
+        .then((value) => User.fromJson(value.data));
+  }
 }

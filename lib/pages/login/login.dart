@@ -1,4 +1,5 @@
 import 'package:app/auth/auth.service.dart';
+import 'package:app/components/spinner.dart';
 import 'package:app/model/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    final user = User(_userController.text, _passwordController.text);
+    final user = User.login(_userController.text, _passwordController.text);
 
     try {
       setState(() {
@@ -95,13 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: _login,
                     child: loading
-                        ? const SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          )
+                        ? const Spinner()
                         : const Text('ENTRAR'),
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size.fromHeight(50),

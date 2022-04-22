@@ -34,9 +34,9 @@ class _FileCardState extends State<FileCard> {
   void initState() {
     super.initState();
 
-    _service.getInfo(widget.id).then((value) => setState(() {
-          arquivo = value;
-        }));
+    _service
+        .getInfo(widget.id)
+        .then((value) => setState(() => arquivo = value));
   }
 
   _download() async {
