@@ -30,10 +30,11 @@ class _AccountInfoState extends State<AccountInfo> {
 
   bool _uploadProgress = false;
 
-  void _logout() async {
+  void _logout(BuildContext context) async {
     await _authService.logout();
     final navigator = Navigator.of(context);
-    navigator.pushNamed('/login');
+    navigator.pop();
+    navigator.popAndPushNamed('/login');
   }
 
   _viewPicture(Aluno aluno) {
@@ -188,7 +189,7 @@ class _AccountInfoState extends State<AccountInfo> {
             color: Colors.red.shade700,
             onTap: () => showAlertDialog(
               context: context,
-              confirm: _logout,
+              confirm: () => _logout(context),
               message: 'Tem certeza que realmente deseja sair?',
               confirmLabel: 'Sair',
               warn: true,
