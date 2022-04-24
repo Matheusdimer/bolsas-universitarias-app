@@ -5,11 +5,13 @@ import 'package:app/model/aluno.dart';
 import 'package:dio/dio.dart';
 
 class AlunoService {
+  static Aluno? _aluno;
+
   final _authService = AuthService.instance;
   final _http = HttpClient().client;
   final _path = '$apiUrl/alunos';
 
-  Future<Aluno> get aluno {
+  Future<Aluno> findAluno() {
     return _http
         .get(
           '$_path/me',
@@ -18,6 +20,10 @@ class AlunoService {
           }),
         )
         .then((response) => Aluno.fromJson(response.data));
+  }
+
+  Future<Aluno> get aluno async {
+    return _aluno = _aluno ?? await findAluno();
   }
 
   Future<Aluno> update(Aluno aluno) {

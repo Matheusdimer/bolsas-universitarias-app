@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:app/config/constants.dart';
-import 'package:app/model/aluno.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -31,7 +30,7 @@ class AuthService {
     }
   }
 
-  Future<String> login(User user) async {
+  Future<void> login(User user) async {
     final response = await _http.post('/auth/', data: user.toJson());
     _token = response.data['token'];
 
@@ -40,8 +39,6 @@ class AuthService {
     }
 
     _storage.write(key: "token", value: _token);
-
-    return _token ?? '';
   }
 
   Future<void> logout() {
