@@ -35,10 +35,12 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).popAndPushNamed('/');
     } on DioError catch (error) {
       print(error);
-      if (error.response?.statusCode == 401) {
-        final snackBar = _buildSnackBar(error.response?.data['message']);
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
+      String message = error.response?.statusCode == 401
+          ? error.response?.data['message']
+          : error.message;
+
+      final snackBar = _buildSnackBar(message);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (error) {
       print(error);
     } finally {
@@ -95,9 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 15),
                   ElevatedButton(
                     onPressed: _login,
-                    child: loading
-                        ? const Spinner()
-                        : const Text('ENTRAR'),
+                    child: loading ? const Spinner() : const Text('ENTRAR'),
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size.fromHeight(50),
                     ),

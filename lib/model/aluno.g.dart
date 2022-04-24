@@ -11,7 +11,9 @@ Aluno _$AlunoFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['nome'] as String,
     json['cpf'] as String,
-    DateTime.parse(json['dataNascimento'] as String),
+    json['dataNascimento'] == null
+        ? null
+        : DateTime.parse(json['dataNascimento'] as String),
     User.fromJson(json['usuario']),
     json['email'] as String?,
     json['contato'] as String?,
@@ -23,7 +25,7 @@ Map<String, dynamic> _$AlunoToJson(Aluno instance) => <String, dynamic>{
       'id': instance.id,
       'nome': instance.nome,
       'cpf': instance.cpf,
-      'dataNascimento': instance.dataNascimento.toIso8601String(),
+      'dataNascimento': instance.dataNascimento?.toIso8601String(),
       'usuario': instance.usuario,
       'email': instance.email,
       'contato': instance.contato,

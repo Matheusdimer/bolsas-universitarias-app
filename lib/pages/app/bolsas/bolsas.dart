@@ -4,13 +4,10 @@ import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading-list.dart';
 import 'package:app/components/loading-tile.dart';
 import 'package:app/components/text_views.dart';
-import 'package:app/config/constants.dart';
 import 'package:app/model/bolsa.dart';
 import 'package:app/pages/app/bolsas/bolsas.service.dart';
 import 'package:app/services/arquivos.service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../../components/empty_list.dart';
 
@@ -157,18 +154,7 @@ class _BolsasListState extends State<BolsasList> {
         size: 2,
         hasImage: true,
       ),
-      error: (error) {
-        if (error is DioError) {
-          if (error.response?.statusCode == 401) {
-            SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-              Navigator.of(context).popAndPushNamed('/login');
-            });
-          } else {
-            return ErrorPage(error: error.message);
-          }
-        }
-        return ErrorPage(error: error.toString());
-      },
+      error: buildErrorPage(context),
     );
   }
 }

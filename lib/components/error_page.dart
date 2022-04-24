@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class ErrorPage extends StatelessWidget {
   final String error;
@@ -17,4 +19,19 @@ class ErrorPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget Function(dynamic error) buildErrorPage(BuildContext context) {
+  return (error) {
+    if (error is DioError) {
+      if (error.response?.statusCode == 401) {
+        SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+          Navigator.of(context).popAndPushNamed('/login');
+        });
+      } else {
+        return ErrorPage(error: error.message);
+      }
+    }
+    return ErrorPage(error: error.toString());
+  };
 }

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:app/auth/auth.service.dart';
 import 'package:app/config/constants.dart';
 import 'package:app/config/dio-config.dart';
@@ -83,5 +81,14 @@ class ArquivoService {
     return _http
         .post(_path, data: form, onSendProgress: progressCallback)
         .then((value) => Arquivo.fromJson(value.data));
+  }
+
+  Future<void> remove(int id) {
+    return _http.delete(
+      '$_path/$id',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_authService.token}'},
+      ),
+    );
   }
 }

@@ -36,12 +36,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     type: MaskAutoCompletionType.lazy,
   );
 
-  final _dateMask = MaskTextInputFormatter(
-    mask: '##/##/####',
-    filter: {"#": RegExp(r'[0-9]')},
-    type: MaskAutoCompletionType.eager,
-  );
-
   _setAluno(Aluno aluno) {
     _emailController.text = aluno.email ?? '';
     _telefoneController.text = _phoneMask.maskText(aluno.contato ?? '');
@@ -108,7 +102,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     label: Text('Data Nascimento'),
                   ),
                   enabled: false,
-                  initialValue: DateFormat('dd/MM/yyyy').format(aluno.dataNascimento),
+                  initialValue: aluno.dataNascimento != null
+                      ? DateFormat('dd/MM/yyyy').format(aluno.dataNascimento!)
+                      : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(

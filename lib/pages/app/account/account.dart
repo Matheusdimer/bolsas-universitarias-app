@@ -1,5 +1,6 @@
 import 'package:app/auth/auth.service.dart';
 import 'package:app/components/alert_dialog.dart';
+import 'package:app/components/error_page.dart';
 import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading-list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -53,6 +54,11 @@ class _AccountInfoState extends State<AccountInfo> {
     if (image == null) return;
 
     _setUploadProgress(true);
+
+    if (aluno.usuario.fotoId != null) {
+      await _arquivoService.remove(aluno.usuario.fotoId!);
+    }
+
     final arquivo = await _arquivoService.upload(image, null);
 
     _setUploadProgress(false);
@@ -70,7 +76,11 @@ class _AccountInfoState extends State<AccountInfo> {
     });
   }
 
-  _removePicture(Aluno aluno) {
+  _removePicture(Aluno aluno) async {
+    if (aluno.usuario.fotoId != null) {
+      await _arquivoService.remove(aluno.usuario.fotoId!);
+    }
+
     aluno.usuario.fotoId = null;
 
     _authService
@@ -126,7 +136,7 @@ class _AccountInfoState extends State<AccountInfo> {
       loading: const CustomShimmer(
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (error) => Container(),
+      error: buildErrorPage(context),
       completed: (aluno) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -136,6 +146,7 @@ class _AccountInfoState extends State<AccountInfo> {
               child: Column(
                 children: [
                   InkWell(
+                    borderRadius: BorderRadius.circular(100),
                     onTap: () => _viewPicture(aluno),
                     onLongPress: () => _pictureOptions(aluno),
                     child: showAvatar(aluno)
@@ -162,7 +173,8 @@ class _AccountInfoState extends State<AccountInfo> {
           TileButton(
             label: 'Meus dados',
             icon: Icons.account_circle_outlined,
-            onTap: () => Navigator.of(context).pushNamed('/account', arguments: aluno),
+            onTap: () =>
+                Navigator.of(context).pushNamed('/account', arguments: aluno),
             top: true,
           ),
           TileButton(
