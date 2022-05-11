@@ -18,6 +18,7 @@ Aluno _$AlunoFromJson(Map<String, dynamic> json) {
     json['email'] as String?,
     json['contato'] as String?,
     _$enumDecode(_$SexoEnumMap, json['sexo']),
+    json['endereco'] == null ? null : Endereco.fromJson(json['endereco']),
   );
 }
 
@@ -30,6 +31,7 @@ Map<String, dynamic> _$AlunoToJson(Aluno instance) => <String, dynamic>{
       'email': instance.email,
       'contato': instance.contato,
       'sexo': _$SexoEnumMap[instance.sexo],
+      'endereco': instance.endereco,
     };
 
 K _$enumDecode<K, V>(

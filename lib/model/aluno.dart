@@ -1,3 +1,4 @@
+import 'package:app/model/endereco.dart';
 import 'package:app/model/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,9 +16,11 @@ class Aluno {
   String? email;
   String? contato;
   Sexo sexo;
+  Endereco? endereco;
+
 
   Aluno(this.id, this.nome, this.cpf, this.dataNascimento, this.usuario,
-      this.email, this.contato, this.sexo);
+      this.email, this.contato, this.sexo, this.endereco);
 
   factory Aluno.fromJson(final dynamic json) => _$AlunoFromJson(json);
 

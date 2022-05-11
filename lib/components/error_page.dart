@@ -23,6 +23,7 @@ class ErrorPage extends StatelessWidget {
 
 Widget Function(dynamic error) buildErrorPage(BuildContext context) {
   return (error) {
+    print(error.stackTrace);
     if (error is DioError) {
       if (error.response?.statusCode == 401) {
         SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {

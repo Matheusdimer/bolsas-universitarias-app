@@ -11,8 +11,10 @@ import 'package:flutter/services.dart';
 void main() {
   runApp(const MyApp());
 
-  final systemTheme = SystemUiOverlayStyle.light
-      .copyWith(systemNavigationBarColor: Colors.white);
+  final systemTheme = SystemUiOverlayStyle.light.copyWith(
+    systemNavigationBarColor: Colors.white,
+    systemNavigationBarIconBrightness: Brightness.dark,
+  );
   SystemChrome.setSystemUIOverlayStyle(systemTheme);
 
   AuthService.instance.init();

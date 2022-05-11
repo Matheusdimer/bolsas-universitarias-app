@@ -1,11 +1,11 @@
+import 'package:app/components/masks.dart';
 import 'package:app/components/spinner.dart';
 import 'package:app/model/aluno.dart';
 import 'package:app/pages/app/account/aluno.service.dart';
+import 'package:app/utils/captalize.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:app/utils/captalize.dart';
 
 class MyAccountPage extends StatefulWidget {
   const MyAccountPage({Key? key}) : super(key: key);
@@ -24,21 +24,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
 
   bool _loading = false;
 
-  final _cpfMask = MaskTextInputFormatter(
-    mask: '###.###.###-##',
-    filter: {"#": RegExp(r'[0-9]')},
-    type: MaskAutoCompletionType.eager,
-  );
 
-  final _phoneMask = MaskTextInputFormatter(
-    mask: '(##) #####-####',
-    filter: {"#": RegExp(r'[0-9]')},
-    type: MaskAutoCompletionType.lazy,
-  );
 
   _setAluno(Aluno aluno) {
     _emailController.text = aluno.email ?? '';
-    _telefoneController.text = _phoneMask.maskText(aluno.contato ?? '');
+    _telefoneController.text = phoneMask.maskText(aluno.contato ?? '');
   }
 
   Aluno _updateValues(Aluno aluno) {
@@ -93,7 +83,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   decoration: const InputDecoration(
                     label: Text('CPF'),
                   ),
-                  initialValue: _cpfMask.maskText(aluno.cpf),
+                  initialValue: cpfMask.maskText(aluno.cpf),
                   enabled: false,
                 ),
                 const SizedBox(height: 20),
@@ -119,7 +109,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     label: Text('Telefone'),
                   ),
                   keyboardType: TextInputType.phone,
-                  inputFormatters: [_phoneMask],
+                  inputFormatters: [phoneMask],
                   controller: _telefoneController,
                 ),
                 const SizedBox(height: 20),

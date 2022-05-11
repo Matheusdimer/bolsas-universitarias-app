@@ -29,12 +29,11 @@ class AlunoService {
   Future<Aluno> update(Aluno aluno) {
     return _http
         .put(
-          '$_path/${aluno.id}',
-          data: aluno.toJson(),
-          options: Options(headers: {
-            'Authorization': 'Bearer ${_authService.token}',
-          }),
-        )
-        .then((value) => Aluno.fromJson(value.data));
+      '$_path/${aluno.id}',
+      data: aluno.toJson(),
+      options: Options(headers: {
+        'Authorization': 'Bearer ${_authService.token}',
+      }),
+    ).then((value) => findAluno());
   }
 }

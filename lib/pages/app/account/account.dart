@@ -3,13 +3,13 @@ import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/error_page.dart';
 import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading-list.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:app/model/aluno.dart';
 import 'package:app/pages/app/account/aluno.service.dart';
 import 'package:app/pages/app/account/tile_button.dart';
 import 'package:app/services/arquivos.service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 enum PictureOptions { edit, delete }
 
@@ -138,64 +138,67 @@ class _AccountInfoState extends State<AccountInfo> {
         child: Center(child: CircularProgressIndicator()),
       ),
       error: buildErrorPage(context),
-      completed: (aluno) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(50),
-            child: Center(
-              child: Column(
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () => _viewPicture(aluno),
-                    onLongPress: () => _pictureOptions(aluno),
-                    child: showAvatar(aluno)
-                        ? Avatar(
-                            imageUrl:
-                                _arquivoService.getUrl(aluno.usuario.fotoId),
-                          )
-                        : _uploadProgress
-                            ? const AvatarLoading()
-                            : const Icon(
-                                Icons.account_circle,
-                                size: 140,
-                              ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    aluno.nome,
-                    style: const TextStyle(fontSize: 25),
-                  )
-                ],
+      completed: (aluno) => SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(50),
+              child: Center(
+                child: Column(
+                  children: [
+                    InkWell(
+                      borderRadius: BorderRadius.circular(100),
+                      onTap: () => _viewPicture(aluno),
+                      onLongPress: () => _pictureOptions(aluno),
+                      child: showAvatar(aluno)
+                          ? Avatar(
+                              imageUrl:
+                                  _arquivoService.getUrl(aluno.usuario.fotoId),
+                            )
+                          : _uploadProgress
+                              ? const AvatarLoading()
+                              : const Icon(
+                                  Icons.account_circle,
+                                  size: 140,
+                                ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      aluno.nome,
+                      style: const TextStyle(fontSize: 25),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          TileButton(
-            label: 'Meus dados',
-            icon: Icons.account_circle_outlined,
-            onTap: () =>
-                Navigator.of(context).pushNamed('/account', arguments: aluno),
-            top: true,
-          ),
-          TileButton(
-            label: 'Endereço',
-            icon: Icons.map_sharp,
-            onTap: () => Navigator.of(context).pushNamed('/address'),
-          ),
-          TileButton(
-            label: 'Sair',
-            icon: Icons.logout,
-            color: Colors.red.shade700,
-            onTap: () => showAlertDialog(
-              context: context,
-              confirm: () => _logout(context),
-              message: 'Tem certeza que realmente deseja sair?',
-              confirmLabel: 'Sair',
-              warn: true,
+            TileButton(
+              label: 'Meus dados',
+              icon: Icons.account_circle_outlined,
+              onTap: () =>
+                  Navigator.of(context).pushNamed('/account', arguments: aluno),
+              top: true,
             ),
-          ),
-        ],
+            TileButton(
+              label: 'Endereço',
+              icon: Icons.map_sharp,
+              onTap: () =>
+                  Navigator.of(context).pushNamed('/address', arguments: aluno),
+            ),
+            TileButton(
+              label: 'Sair',
+              icon: Icons.logout,
+              color: Colors.red.shade700,
+              onTap: () => showAlertDialog(
+                context: context,
+                confirm: () => _logout(context),
+                message: 'Tem certeza que realmente deseja sair?',
+                confirmLabel: 'Sair',
+                warn: true,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
