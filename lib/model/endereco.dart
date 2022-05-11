@@ -18,6 +18,16 @@ class Endereco {
   Endereco(this.id, this.logradouro, this.bairro, this.cep, this.municipio,
       this.complemento, this.numero);
 
+  Endereco.copy(Endereco endereco) {
+    id = endereco.id;
+    logradouro = endereco.logradouro;
+    bairro = endereco.bairro;
+    cep = endereco.cep;
+    municipio = endereco.municipio;
+    complemento = endereco.complemento;
+    numero = endereco.numero;
+  }
+
   factory Endereco.fromJson(final dynamic json) => _$EnderecoFromJson(json);
 
   Map toJson() => _$EnderecoToJson(this);

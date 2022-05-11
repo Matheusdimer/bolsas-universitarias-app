@@ -5,6 +5,7 @@ import 'package:app/model/estado.dart';
 import 'package:app/model/municipio.dart';
 import 'package:app/pages/app/account/aluno.service.dart';
 import 'package:app/pages/app/account/endereco.service.dart';
+import 'package:app/utils/validators.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +44,8 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   void save() async {
+    if (!_formKey.currentState!.validate()) return;
+
     _setLoading(true);
     _aluno.endereco = _endereco;
     await _alunoService.update(_aluno);
@@ -79,7 +82,7 @@ class _AddressPageState extends State<AddressPage> {
     if (endereco == null) return;
 
     setState(() {
-      _endereco = endereco;
+      _endereco = Endereco.copy(endereco);
     });
   }
 
@@ -101,7 +104,7 @@ class _AddressPageState extends State<AddressPage> {
 
     _setAluno(aluno);
     _setEndereco(aluno?.endereco);
-
+    
     return Scaffold(
       appBar: AppBar(title: const Text('Endereço')),
       body: Form(
@@ -120,6 +123,7 @@ class _AddressPageState extends State<AddressPage> {
                   initialValue: _endereco.cep,
                   inputFormatters: [cepMask],
                   onChanged: (value) => _endereco.cep = value,
+                  validator: requiredValidator,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -128,6 +132,7 @@ class _AddressPageState extends State<AddressPage> {
                   ),
                   initialValue: _endereco.logradouro,
                   onChanged: (value) => _endereco.logradouro = value,
+                  validator: requiredValidator,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -136,6 +141,7 @@ class _AddressPageState extends State<AddressPage> {
                   ),
                   initialValue: _endereco.bairro,
                   onChanged: (value) => _endereco.bairro = value,
+                  validator: requiredValidator,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -144,6 +150,7 @@ class _AddressPageState extends State<AddressPage> {
                   ),
                   initialValue: _endereco.numero,
                   onChanged: (value) => _endereco.numero = value,
+                  validator: requiredValidator,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -162,6 +169,7 @@ class _AddressPageState extends State<AddressPage> {
                   items: _getDropdownList(
                       _estados, (value) => '${value.nome} (${value.sigla})'),
                   onChanged: _setEstado,
+                  validator: requiredValidator,
                 ),
                 const SizedBox(height: 20),
                 DropdownSearch<Municipio>(
@@ -180,6 +188,7 @@ class _AddressPageState extends State<AddressPage> {
                   onChanged: (Municipio? data) {
                     _endereco.municipio = data;
                   },
+                  validator: requiredValidator,
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
