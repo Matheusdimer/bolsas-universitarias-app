@@ -1,3 +1,4 @@
+import 'package:app/components/text_views.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -13,8 +14,22 @@ class ErrorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline),
-          Text(error),
+          const Icon(
+            Icons.error_sharp,
+            size: 100,
+            color: Color.fromRGBO(255, 70, 70, 0.8),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const TextTitle(text: 'Ops, ocorreu um erro.'),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            error,
+            style: const TextStyle(fontSize: 20),
+          )
         ],
       ),
     );

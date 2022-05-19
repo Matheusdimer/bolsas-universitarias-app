@@ -17,9 +17,12 @@ Bolsa _$BolsaFromJson(Map<String, dynamic> json) {
     (json['documentos'] as List<dynamic>?)
         ?.map((e) => Documento.fromJson(e))
         .toList(),
-    json['editalAtivo'] as bool?,
+    json['editalAtivo'] as bool,
     json['tipoBolsa'] as String,
-  )..fotoId = json['fotoId'] as int?;
+    json['fotoId'] as int?,
+    _$enumDecode(_$TipoInscricaoEnumMap, json['tipoInscricao']),
+    json['url'] as String?,
+  );
 }
 
 Map<String, dynamic> _$BolsaToJson(Bolsa instance) => <String, dynamic>{
@@ -31,4 +34,37 @@ Map<String, dynamic> _$BolsaToJson(Bolsa instance) => <String, dynamic>{
       'editalAtivo': instance.editalAtivo,
       'tipoBolsa': instance.tipoBolsa,
       'fotoId': instance.fotoId,
+      'tipoInscricao': _$TipoInscricaoEnumMap[instance.tipoInscricao],
+      'url': instance.url,
     };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$TipoInscricaoEnumMap = {
+  TipoInscricao.INTERNA: 'INTERNA',
+  TipoInscricao.EXTERNA: 'EXTERNA',
+};

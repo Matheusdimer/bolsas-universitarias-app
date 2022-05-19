@@ -8,6 +8,7 @@ import 'package:app/model/bolsa.dart';
 import 'package:app/pages/app/bolsas/bolsas.service.dart';
 import 'package:app/services/arquivos.service.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../components/empty_list.dart';
 
@@ -39,6 +40,15 @@ class _BolsasListState extends State<BolsasList> {
 
   _openDetails(Bolsa bolsa) {
     Navigator.of(context).pushNamed('/details', arguments: bolsa);
+  }
+
+  _openInscricao(Bolsa bolsa) {
+    if (bolsa.tipoInscricao == TipoInscricao.EXTERNA && bolsa.url != null) {
+      final url = Uri.parse(bolsa.url!);
+      launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      Navigator.of(context).pushNamed('/inscrever-se', arguments: bolsa);
+    }
   }
 
   Widget _buildItem(final Bolsa bolsa) {
@@ -117,7 +127,7 @@ class _BolsasListState extends State<BolsasList> {
               alignment: MainAxisAlignment.start,
               children: [
                 TextButton(
-                  onPressed: bolsa.editalAtivo == true ? () {} : null,
+                  onPressed: bolsa.editalAtivo ? () => _openInscricao(bolsa) : null,
                   child: const Text('INSCREVER-SE'),
                 ),
                 TextButton(

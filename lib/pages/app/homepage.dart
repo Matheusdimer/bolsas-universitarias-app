@@ -1,7 +1,7 @@
 import 'package:app/auth/auth.service.dart';
 import 'package:app/pages/app/account/account.dart';
 import 'package:app/pages/app/bolsas/bolsas.dart';
-import 'package:app/pages/app/candidaturas/candidaturas.dart';
+import 'package:app/pages/app/inscricoes/inscricoes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _tabs = [
     const BolsasList(),
-    const CandidaturasList(),
+    const InscricoesList(),
     const AccountInfo(),
   ];
 

@@ -47,6 +47,7 @@ class _AddressPageState extends State<AddressPage> {
     if (!_formKey.currentState!.validate()) return;
 
     _setLoading(true);
+
     _aluno.endereco = _endereco;
     await _alunoService.update(_aluno);
     Navigator.of(context).pop();
@@ -99,12 +100,16 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final aluno = ModalRoute.of(context)!.settings.arguments as Aluno?;
 
     _setAluno(aluno);
     _setEndereco(aluno?.endereco);
-    
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Endereço')),
       body: Form(
@@ -120,9 +125,9 @@ class _AddressPageState extends State<AddressPage> {
                     label: Text('CEP'),
                   ),
                   keyboardType: TextInputType.number,
-                  initialValue: _endereco.cep,
+                  initialValue: cepMask.maskText(_endereco.cep ?? ''),
                   inputFormatters: [cepMask],
-                  onChanged: (value) => _endereco.cep = value,
+                  onChanged: (value) => _endereco.cep = value.replaceAll('-', ''),
                   validator: requiredValidator,
                 ),
                 const SizedBox(height: 20),

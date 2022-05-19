@@ -4,6 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bolsa.g.dart';
 
+enum TipoInscricao { INTERNA, EXTERNA }
+
 @JsonSerializable()
 class Bolsa {
   int id;
@@ -11,12 +13,23 @@ class Bolsa {
   String descricao;
   List<Requisito>? requisitos;
   List<Documento>? documentos;
-  bool? editalAtivo;
+  bool editalAtivo;
   String tipoBolsa;
   int? fotoId;
+  TipoInscricao tipoInscricao;
+  String? url;
 
-  Bolsa(this.id, this.nome, this.descricao, this.requisitos, this.documentos,
-      this.editalAtivo, this.tipoBolsa);
+  Bolsa(
+      this.id,
+      this.nome,
+      this.descricao,
+      this.requisitos,
+      this.documentos,
+      this.editalAtivo,
+      this.tipoBolsa,
+      this.fotoId,
+      this.tipoInscricao,
+      this.url);
 
   factory Bolsa.fromJson(final dynamic json) => _$BolsaFromJson(json);
 

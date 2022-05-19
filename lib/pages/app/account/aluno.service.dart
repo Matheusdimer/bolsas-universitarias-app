@@ -34,6 +34,6 @@ class AlunoService {
       options: Options(headers: {
         'Authorization': 'Bearer ${_authService.token}',
       }),
-    ).then((value) => findAluno());
+    ).then((value) async => _aluno = await findAluno());
   }
 }

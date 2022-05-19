@@ -31,4 +31,9 @@ class Endereco {
   factory Endereco.fromJson(final dynamic json) => _$EnderecoFromJson(json);
 
   Map toJson() => _$EnderecoToJson(this);
+
+  @override
+  String toString() {
+    return 'Endereco{id: $id, logradouro: $logradouro, bairro: $bairro, cep: $cep, municipio: $municipio, complemento: $complemento, numero: $numero}';
+  }
 }

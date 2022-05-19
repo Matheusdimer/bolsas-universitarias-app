@@ -25,4 +25,9 @@ class Aluno {
   factory Aluno.fromJson(final dynamic json) => _$AlunoFromJson(json);
 
   Map toJson() => _$AlunoToJson(this);
+
+  @override
+  String toString() {
+    return 'Aluno{id: $id, nome: $nome, cpf: $cpf, dataNascimento: $dataNascimento, usuario: $usuario, email: $email, contato: $contato, sexo: $sexo, endereco: $endereco}';
+  }
 }

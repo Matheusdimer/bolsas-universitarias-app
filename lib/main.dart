@@ -3,6 +3,7 @@ import 'package:app/pages/app/account/address.dart';
 import 'package:app/pages/app/account/my_account.dart';
 import 'package:app/pages/app/bolsas/detail/bolsas.detail.dart';
 import 'package:app/pages/app/homepage.dart';
+import 'package:app/pages/app/inscricoes/inscricao-cad.dart';
 import 'package:app/pages/login/login.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ void main() {
   runApp(const MyApp());
 
   final systemTheme = SystemUiOverlayStyle.light.copyWith(
-    systemNavigationBarColor: Colors.white,
+    systemNavigationBarColor: const Color(0xFAFAFAFA),
     systemNavigationBarIconBrightness: Brightness.dark,
   );
   SystemChrome.setSystemUIOverlayStyle(systemTheme);
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/account': (context) => const MyAccountPage(),
         '/address': (context) => const AddressPage(),
-        '/details': (context) => const BolsasDetail()
+        '/details': (context) => const BolsasDetail(),
+        '/inscrever-se': (context) => const InscricaoCadastro()
       },
     );
   }

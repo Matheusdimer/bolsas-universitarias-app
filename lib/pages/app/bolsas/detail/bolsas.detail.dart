@@ -1,4 +1,5 @@
 import 'package:app/components/badge.dart';
+import 'package:app/components/error_page.dart';
 import 'package:app/components/file_card.dart';
 import 'package:app/components/future_tracker.dart';
 import 'package:app/components/loading_detail.dart';
@@ -7,6 +8,7 @@ import 'package:app/model/bolsa.dart';
 import 'package:app/pages/app/bolsas/bolsas.service.dart';
 import 'package:app/services/arquivos.service.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BolsasDetail extends StatefulWidget {
   const BolsasDetail({Key? key}) : super(key: key);
@@ -23,6 +25,15 @@ class _BolsasDetailState extends State<BolsasDetail> {
     return _service.find(id);
   }
 
+  _openInscricao(Bolsa bolsa) {
+    if (bolsa.tipoInscricao == TipoInscricao.EXTERNA && bolsa.url != null) {
+      final url = Uri.parse(bolsa.url!);
+      launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      Navigator.of(context).pushNamed('/inscrever-se', arguments: bolsa);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bolsa = ModalRoute.of(context)!.settings.arguments as Bolsa;
@@ -31,7 +42,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
         appBar: AppBar(
           title: const Text('Detalhes'),
         ),
-        bottomNavigationBar: bolsa.editalAtivo == null
+        bottomNavigationBar: bolsa.editalAtivo == true
             ? Material(
                 elevation: 10,
                 child: Padding(
@@ -40,8 +51,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
                     height: 50,
                     child: OutlinedButton(
                       child: const Text('INSCREVER-SE'),
-                      style: OutlinedButton.styleFrom(),
-                      onPressed: () {},
+                      onPressed: () => _openInscricao(bolsa),
                     ),
                   ),
                 ),
@@ -71,10 +81,10 @@ class _BolsasDetailState extends State<BolsasDetail> {
                         children: [
                           TextTitle(text: bolsa.nome),
                           Badge(
-                            text: bolsa.editalAtivo == true
+                            text: bolsa.editalAtivo
                                 ? 'DISPONÍVEL'
                                 : 'INDISPONÍVEL',
-                            type: bolsa.editalAtivo == true
+                            type: bolsa.editalAtivo
                                 ? BadgeType.success
                                 : BadgeType.error,
                             fontSize: 14,
@@ -144,7 +154,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
                     ],
                   ),
                 ),
-                error: (error) => Container(),
+                error: buildErrorPage(context),
               ),
             ],
           ),
