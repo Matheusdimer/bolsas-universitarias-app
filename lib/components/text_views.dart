@@ -34,6 +34,7 @@ class TextSubTitle extends StatelessWidget {
       style: const TextStyle(
         fontSize: h2,
         fontWeight: FontWeight.bold,
+        color: Colors.black
       ),
     );
   }
@@ -131,6 +132,7 @@ class TextNormalWeak extends StatelessWidget {
       style: const TextStyle(
         fontSize: normal,
         fontWeight: FontWeight.w300,
+        color: Colors.black,
       ),
     );
   }
