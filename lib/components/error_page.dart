@@ -28,6 +28,7 @@ class ErrorPage extends StatelessWidget {
           ),
           Text(
             error,
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 20),
           )
         ],

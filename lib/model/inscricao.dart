@@ -1,4 +1,5 @@
-import 'package:app/model/documento.dart';
+import 'package:app/components/badge.dart';
+import 'package:app/model/inscricao_documento.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'aluno.dart';
@@ -14,19 +15,53 @@ enum SituacaoInscricao {
   AGUARDANDO_CORRECAO
 }
 
+extension SituacaoInscricaoDescription on SituacaoInscricao {
+  String get description {
+    switch (this) {
+      case SituacaoInscricao.AGUARDANDO_ANALISE:
+        return 'Aguardando análise';
+      case SituacaoInscricao.EM_ANALISE:
+        return 'Em análise';
+      case SituacaoInscricao.APROVADO:
+        return 'Aprovado';
+      case SituacaoInscricao.REJEITADO:
+        return 'Rejeitado';
+      case SituacaoInscricao.AGUARDANDO_CORRECAO:
+        return 'Aguardando Correção';
+    }
+  }
+
+  BadgeType get badge {
+    switch (this) {
+      case SituacaoInscricao.AGUARDANDO_ANALISE:
+        return BadgeType.info;
+      case SituacaoInscricao.EM_ANALISE:
+        return BadgeType.info;
+      case SituacaoInscricao.APROVADO:
+        return BadgeType.success;
+      case SituacaoInscricao.REJEITADO:
+        return BadgeType.error;
+      case SituacaoInscricao.AGUARDANDO_CORRECAO:
+        return BadgeType.warn;
+    }
+  }
+}
+
 @JsonSerializable()
 class Inscricao {
   int? id;
   Bolsa bolsa;
-  List<Documento> documentos;
-  DateTime dataCriacao;
-  SituacaoInscricao situacao;
+  List<InscricaoDocumento> documentos;
+  DateTime? dataCriacao;
+  SituacaoInscricao? situacao = SituacaoInscricao.AGUARDANDO_ANALISE;
   String? motivoRetorno;
   String? observacoes;
-  Aluno? aluno;
+  Aluno aluno;
 
   Inscricao(this.id, this.bolsa, this.documentos, this.dataCriacao,
       this.situacao, this.motivoRetorno, this.observacoes, this.aluno);
+
+  Inscricao.fromBolsa(this.bolsa, this.documentos, this.aluno);
 
   factory Inscricao.fromJson(final dynamic json) => _$InscricaoFromJson(json);
 

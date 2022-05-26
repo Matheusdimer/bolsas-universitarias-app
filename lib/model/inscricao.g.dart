@@ -10,14 +10,16 @@ Inscricao _$InscricaoFromJson(Map<String, dynamic> json) {
   return Inscricao(
     json['id'] as int?,
     Bolsa.fromJson(json['bolsa']),
-    (json['documentos'] as List<dynamic>)
-        .map((e) => Documento.fromJson(e))
+    ((json['documentos'] ?? []) as List<dynamic>)
+        .map((e) => InscricaoDocumento.fromJson(e))
         .toList(),
-    DateTime.parse(json['dataCriacao'] as String),
-    _$enumDecode(_$SituacaoInscricaoEnumMap, json['situacao']),
+    json['dataCriacao'] == null
+        ? null
+        : DateTime.parse(json['dataCriacao'] as String),
+    _$enumDecodeNullable(_$SituacaoInscricaoEnumMap, json['situacao']),
     json['motivoRetorno'] as String?,
     json['observacoes'] as String?,
-    json['aluno'] == null ? null : Aluno.fromJson(json['aluno']),
+    Aluno.fromJson(json['aluno']),
   );
 }
 
@@ -25,7 +27,7 @@ Map<String, dynamic> _$InscricaoToJson(Inscricao instance) => <String, dynamic>{
       'id': instance.id,
       'bolsa': instance.bolsa,
       'documentos': instance.documentos,
-      'dataCriacao': instance.dataCriacao.toIso8601String(),
+      'dataCriacao': instance.dataCriacao?.toIso8601String(),
       'situacao': _$SituacaoInscricaoEnumMap[instance.situacao],
       'motivoRetorno': instance.motivoRetorno,
       'observacoes': instance.observacoes,
@@ -56,6 +58,17 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$SituacaoInscricaoEnumMap = {

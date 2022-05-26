@@ -3,7 +3,7 @@ import 'package:app/pages/app/account/address.dart';
 import 'package:app/pages/app/account/my_account.dart';
 import 'package:app/pages/app/bolsas/detail/bolsas.detail.dart';
 import 'package:app/pages/app/homepage.dart';
-import 'package:app/pages/app/inscricoes/inscricao-cad.dart';
+import 'package:app/pages/app/inscricoes/inscricao.dart';
 import 'package:app/pages/login/login.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         '/account': (context) => const MyAccountPage(),
         '/address': (context) => const AddressPage(),
         '/details': (context) => const BolsasDetail(),
-        '/inscrever-se': (context) => const InscricaoCadastro()
+        '/inscrever-se': (context) => const InscricaoPage()
       },
     );
   }

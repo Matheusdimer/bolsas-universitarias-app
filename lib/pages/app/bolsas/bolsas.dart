@@ -47,7 +47,7 @@ class _BolsasListState extends State<BolsasList> {
       final url = Uri.parse(bolsa.url!);
       launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      Navigator.of(context).pushNamed('/inscrever-se', arguments: bolsa);
+      Navigator.of(context).pushNamed('/inscrever-se', arguments: bolsa.id);
     }
   }
 

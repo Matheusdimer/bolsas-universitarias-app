@@ -30,7 +30,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
       final url = Uri.parse(bolsa.url!);
       launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      Navigator.of(context).pushNamed('/inscrever-se', arguments: bolsa);
+      Navigator.of(context).pushNamed('/inscrever-se', arguments: bolsa.id);
     }
   }
 
@@ -108,26 +108,34 @@ class _BolsasDetailState extends State<BolsasDetail> {
                       ),
                       const TextSubTitle(text: 'Requisitos'),
                       const SizedBox(height: 20),
-                      Column(
-                        children: (bolsa.requisitos ?? [])
-                            .map(
-                              (requisito) => Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8, bottom: 8, left: 8),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const TextTitle(text: '• '),
-                                    Flexible(
-                                      child:
-                                          TextNormal(text: requisito.descricao),
-                                    ),
-                                  ],
+                      if (bolsa.requisitos != null &&
+                          bolsa.requisitos!.isNotEmpty)
+                        Column(
+                          children: bolsa.requisitos!
+                              .map(
+                                (requisito) => Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8, bottom: 8, left: 8),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const TextTitle(text: '• '),
+                                      Flexible(
+                                        child: TextNormal(
+                                            text: requisito.descricao),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )
-                            .toList(),
-                      ),
+                              )
+                              .toList(),
+                        )
+                      else
+                        const Center(
+                          child: TextNormal(
+                              text: "Nenhum requisito por aqui."),
+                        ),
                       const CustomDivider(
                         height: 40,
                       ),

@@ -60,7 +60,8 @@ class _AccountInfoState extends State<AccountInfo> {
       await _arquivoService.remove(aluno.usuario.fotoId!);
     }
 
-    final arquivo = await _arquivoService.upload(image, null);
+    final arquivo = await _arquivoService.upload(
+        await image.readAsBytes(), image.name, null);
 
     _setUploadProgress(false);
 

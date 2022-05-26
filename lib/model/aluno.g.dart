@@ -14,7 +14,9 @@ Aluno _$AlunoFromJson(Map<String, dynamic> json) {
     json['dataNascimento'] == null
         ? null
         : DateTime.parse(json['dataNascimento'] as String),
-    User.fromJson(json['usuario']),
+    json['usuario'] != null
+        ? User.fromJson(json['usuario'])
+        : User.login('', ''),
     json['email'] as String?,
     json['contato'] as String?,
     _$enumDecode(_$SexoEnumMap, json['sexo']),
