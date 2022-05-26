@@ -3,7 +3,9 @@ import 'package:app/components/loading-tile.dart';
 import 'package:app/components/text_views.dart';
 import 'package:app/model/arquivo.dart';
 import 'package:app/services/arquivos.service.dart';
+import 'package:app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 
 enum FileCardType { grid, list }
 
@@ -42,10 +44,15 @@ class _FileCardState extends State<FileCard> {
   _download() async {
     if (arquivo == null) return;
 
-    await _service.download(
+    final openResult = await _service.download(
       arquivo: arquivo!,
       progressCallback: _downloadCallback,
     );
+
+    if (openResult.type == ResultType.noAppToOpen) {
+      showSnackBar(context,
+          'Você não possui nenhum app instalado para abrir esse tipo arquivo.');
+    }
 
     setState(() {
       downloadProgress = null;

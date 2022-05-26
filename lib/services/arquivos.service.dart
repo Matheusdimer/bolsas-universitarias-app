@@ -52,19 +52,22 @@ class ArquivoService {
     return icons[extension] ?? defaultIcon;
   }
 
-  Future download(
+  Future<OpenResult> download(
       {required Arquivo arquivo, ProgressCallback? progressCallback}) async {
     final url = getUrl(arquivo.id);
 
     bool hasPermission = await _requestWritePermission();
-    if (!hasPermission) return;
+    if (!hasPermission) return OpenResult();
 
-    final directory = await getApplicationDocumentsDirectory();
+    final directory = await getExternalStorageDirectory();
+
+    if (directory == null) return OpenResult();
+
     final path = '${directory.path}/${arquivo.nome}';
 
     await _http.download(url, path, onReceiveProgress: progressCallback);
 
-    OpenFile.open(path);
+    return OpenFile.open(path);
   }
 
   Future<bool> _requestWritePermission() async {
