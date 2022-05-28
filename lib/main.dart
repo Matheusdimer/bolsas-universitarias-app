@@ -13,7 +13,7 @@ void main() {
   runApp(const MyApp());
 
   final systemTheme = SystemUiOverlayStyle.light.copyWith(
-    systemNavigationBarColor: const Color(0xFAFAFAFA),
+    systemNavigationBarColor: const Color(0xFCFCFCFC),
     systemNavigationBarIconBrightness: Brightness.dark,
   );
   SystemChrome.setSystemUIOverlayStyle(systemTheme);

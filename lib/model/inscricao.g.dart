@@ -10,7 +10,7 @@ Inscricao _$InscricaoFromJson(Map<String, dynamic> json) {
   return Inscricao(
     json['id'] as int?,
     Bolsa.fromJson(json['bolsa']),
-    ((json['documentos'] ?? []) as List<dynamic>)
+    (json['documentos'] as List<dynamic>)
         .map((e) => InscricaoDocumento.fromJson(e))
         .toList(),
     json['dataCriacao'] == null

@@ -1,4 +1,5 @@
 import 'package:app/model/documento.dart';
+import 'package:app/model/edital.dart';
 import 'package:app/model/requisito.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,6 +14,7 @@ class Bolsa {
   String descricao;
   List<Requisito>? requisitos;
   List<Documento>? documentos;
+  List<Edital>? editais;
   bool editalAtivo;
   String tipoBolsa;
   int? fotoId;
@@ -34,4 +36,12 @@ class Bolsa {
   factory Bolsa.fromJson(final dynamic json) => _$BolsaFromJson(json);
 
   Map toJson() => _$BolsaToJson(this);
+
+  Edital? get editalAtual {
+    if (editais == null) return null;
+
+    final now = DateTime.now();
+    return editais!.firstWhere((edital) =>
+        edital.dataInicio.isBefore(now) && now.isBefore(edital.dataFim));
+  }
 }

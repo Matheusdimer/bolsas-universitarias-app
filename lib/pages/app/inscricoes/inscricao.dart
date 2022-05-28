@@ -9,6 +9,7 @@ import 'package:app/model/inscricao.dart';
 import 'package:app/model/inscricao_documento.dart';
 import 'package:app/pages/app/account/aluno.service.dart';
 import 'package:app/pages/app/bolsas/bolsas.service.dart';
+import 'package:app/pages/app/bolsas/edital_tile.dart';
 import 'package:app/pages/app/forms/aluno-form.dart';
 import 'package:app/pages/app/forms/endereco-form.dart';
 import 'package:app/pages/app/inscricoes/inscricao.service.dart';
@@ -17,6 +18,7 @@ import 'package:app/utils/snackbar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
 
 class InscricaoPage extends StatefulWidget {
   const InscricaoPage({Key? key}) : super(key: key);
@@ -35,18 +37,17 @@ class _InscricaoPageState extends State<InscricaoPage> {
   Future<Inscricao>? inscricao;
   Future<void>? _saveFuture;
 
+  final dateFormater = DateFormat('dd/MM/yyyy');
+
   Future<Inscricao> buildInscricao() async {
-    final id = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as int;
+    final id = ModalRoute.of(context)!.settings.arguments as int;
     final bolsa = await _bolsasService.find(id);
     final aluno = await _alunoService.aluno;
 
     initialized = true;
 
     final documentos =
-    bolsa.documentos?.map(InscricaoDocumento.fromDocumento).toList();
+        bolsa.documentos?.map(InscricaoDocumento.fromDocumento).toList();
 
     return Inscricao.fromBolsa(bolsa, documentos ?? [], aluno);
   }
@@ -100,86 +101,91 @@ class _InscricaoPageState extends State<InscricaoPage> {
           future: inscricao!,
           loading: const LoadingDetail(),
           error: buildErrorPage(context),
-          completed: (inscricao) =>
-              SingleChildScrollView(
-                child: Column(
-                  children: [
+          completed: (inscricao) {
+            final edital = inscricao.bolsa.editalAtual;
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  if (edital != null)
                     ExpandableGroup(
-                      title: 'Dados do aluno',
+                      title: 'Edital atual',
                       initiallyExpanded: true,
-                      children: [
-                        AlunoForm(aluno: inscricao.aluno),
-                      ],
+                      children: [EditalTile(edital: edital)],
                     ),
-                    ExpandableGroup(
-                      title: 'Endereço',
+                  ExpandableGroup(
+                    title: 'Dados do aluno',
+                    initiallyExpanded: true,
+                    children: [AlunoForm(aluno: inscricao.aluno)],
+                  ),
+                  ExpandableGroup(
+                    title: 'Endereço',
+                    children: [
+                      EnderecoForm(endereco: inscricao.aluno.endereco!),
+                    ],
+                  ),
+                  ExpandableGroup(
+                    title: 'Modelos de documentos',
+                    initiallyExpanded: true,
+                    children: [
+                      const TextNormalWeak(
+                        text:
+                            'Utilize esses modelos fornecidos para preenchimento e os anexe '
+                            'nos documentos da inscrição correspondentes.',
+                      ),
+                      const SizedBox(height: 20),
+                      ...buildDocumentosModelo(inscricao),
+                    ],
+                  ),
+                  ExpandableGroup(
+                    title: 'Documentos da inscrição',
+                    subtitle: 'Anexe aqui os documentos necessários.',
+                    initiallyExpanded: true,
+                    children: [
+                      ...buildDocumentosInscricao(inscricao),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        EnderecoForm(endereco: inscricao.aluno.endereco!),
-                      ],
-                    ),
-                    ExpandableGroup(
-                      title: 'Modelos de documentos',
-                      initiallyExpanded: true,
-                      children: [
-                        const TextNormalWeak(
-                          text:
-                          'Utilize esses modelos fornecidos para preenchimento e os anexe '
-                              'nos documentos da inscrição correspondentes.',
+                        TextFormField(
+                          maxLines: 3,
+                          decoration: const InputDecoration(
+                            label: Text('Observações'),
+                            alignLabelWithHint: true,
+                          ),
+                          onChanged: (value) => inscricao.observacoes = value,
                         ),
                         const SizedBox(height: 20),
-                        ...buildDocumentosModelo(inscricao),
-                      ],
-                    ),
-                    ExpandableGroup(
-                      title: 'Documentos da inscrição',
-                      subtitle: 'Anexe aqui os documentos necessários.',
-                      initiallyExpanded: true,
-                      children: [
-                        ...buildDocumentosInscricao(inscricao),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          TextFormField(
-                            maxLines: 3,
-                            decoration: const InputDecoration(
-                              label: Text('Observações'),
-                              alignLabelWithHint: true,
-                            ),
-                            onChanged: (value) => inscricao.observacoes = value,
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () => save(inscricao),
-                              child: FutureTracker<void>(
-                                future: _saveFuture,
-                                loading: const Spinner(),
-                                completed: (value) =>
-                                const Text('REALIZAR INSCRIÇÃO'),
-                                error: (error) =>
-                                const Text('TENTAR NOVAMENTE'),
-                                onError: showError,
-                              ),
+                        SizedBox(
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () => save(inscricao),
+                            child: FutureTracker<void>(
+                              future: _saveFuture,
+                              loading: const Spinner(),
+                              completed: (value) =>
+                                  const Text('REALIZAR INSCRIÇÃO'),
+                              error: (error) => const Text('TENTAR NOVAMENTE'),
+                              onError: showError,
                             ),
                           ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
+            );
+          },
         ));
   }
 
   List<Widget> buildDocumentosModelo(Inscricao inscricao) {
     return List.generate(
       inscricao.documentos.length,
-          (index) {
+      (index) {
         final inscricaoDocumento = inscricao.documentos[index];
         return FileCard(
           id: inscricaoDocumento.documento.arquivoId!,
@@ -192,10 +198,9 @@ class _InscricaoPageState extends State<InscricaoPage> {
   List<Widget> buildDocumentosInscricao(Inscricao inscricao) {
     return List.generate(
       inscricao.documentos.length,
-          (index) =>
-          InscricaoDocumentoCard(
-            inscricaoDocumento: inscricao.documentos[index],
-          ),
+      (index) => InscricaoDocumentoCard(
+        inscricaoDocumento: inscricao.documentos[index],
+      ),
     );
   }
 }
@@ -206,11 +211,12 @@ class ExpandableGroup extends StatelessWidget {
   final List<Widget> children;
   final bool initiallyExpanded;
 
-  const ExpandableGroup({Key? key,
-    required this.title,
-    required this.children,
-    this.initiallyExpanded = false,
-    this.subtitle})
+  const ExpandableGroup(
+      {Key? key,
+      required this.title,
+      required this.children,
+      this.initiallyExpanded = false,
+      this.subtitle})
       : super(key: key);
 
   @override

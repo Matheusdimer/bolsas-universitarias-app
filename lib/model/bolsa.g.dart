@@ -22,7 +22,9 @@ Bolsa _$BolsaFromJson(Map<String, dynamic> json) {
     json['fotoId'] as int?,
     _$enumDecode(_$TipoInscricaoEnumMap, json['tipoInscricao']),
     json['url'] as String?,
-  );
+  )..editais = (json['editais'] as List<dynamic>?)
+      ?.map((e) => Edital.fromJson(e))
+      .toList();
 }
 
 Map<String, dynamic> _$BolsaToJson(Bolsa instance) => <String, dynamic>{
@@ -31,6 +33,7 @@ Map<String, dynamic> _$BolsaToJson(Bolsa instance) => <String, dynamic>{
       'descricao': instance.descricao,
       'requisitos': instance.requisitos,
       'documentos': instance.documentos,
+      'editais': instance.editais,
       'editalAtivo': instance.editalAtivo,
       'tipoBolsa': instance.tipoBolsa,
       'fotoId': instance.fotoId,
