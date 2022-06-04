@@ -69,6 +69,7 @@ class _InscricaoPageState extends State<InscricaoPage> {
         .update(inscricao.aluno)
         .then((value) => _inscricaoService.save(inscricao))
         .then((value) {
+      Navigator.of(context).pop();
       showSnackBar(context, 'Inscrição realizada com sucesso.');
       Navigator.of(context).pop();
     });
@@ -183,23 +184,22 @@ class _InscricaoPageState extends State<InscricaoPage> {
   }
 
   List<Widget> buildDocumentosModelo(Inscricao inscricao) {
-    return List.generate(
-      inscricao.documentos.length,
-      (index) {
-        final inscricaoDocumento = inscricao.documentos[index];
-        return FileCard(
-          id: inscricaoDocumento.documento.arquivoId!,
-          description: inscricaoDocumento.documento.nome,
-        );
-      },
-    );
+    return inscricao.documentos!
+        .where((element) => element.arquivoId != null)
+        .map(
+          (inscricaoDocumento) => FileCard(
+            id: inscricaoDocumento.documento.arquivoId!,
+            description: inscricaoDocumento.documento.nome,
+          ),
+        )
+        .toList();
   }
 
   List<Widget> buildDocumentosInscricao(Inscricao inscricao) {
     return List.generate(
-      inscricao.documentos.length,
+      inscricao.documentos!.length,
       (index) => InscricaoDocumentoCard(
-        inscricaoDocumento: inscricao.documentos[index],
+        inscricaoDocumento: inscricao.documentos![index],
       ),
     );
   }

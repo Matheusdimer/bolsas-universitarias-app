@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app/components/future_tracker.dart';
+import 'package:app/components/loading-tile.dart';
 import 'package:app/components/text_views.dart';
 import 'package:app/model/arquivo.dart';
 import 'package:app/model/inscricao_documento.dart';
@@ -11,9 +12,13 @@ import 'package:flutter/material.dart';
 
 class InscricaoDocumentoCard extends StatefulWidget {
   final InscricaoDocumento inscricaoDocumento;
+  final bool disabled;
 
-  const InscricaoDocumentoCard({Key? key, required this.inscricaoDocumento})
-      : super(key: key);
+  const InscricaoDocumentoCard({
+    Key? key,
+    required this.inscricaoDocumento,
+    this.disabled = false,
+  }) : super(key: key);
 
   @override
   State<InscricaoDocumentoCard> createState() => _InscricaoDocumentoCardState();
@@ -23,6 +28,7 @@ class _InscricaoDocumentoCardState extends State<InscricaoDocumentoCard> {
   final _arquivoService = ArquivoService();
 
   Future<void>? _upload;
+  Future<void>? _load;
   Arquivo? arquivo;
 
   late InscricaoDocumento inscricaoDocumento;
@@ -30,7 +36,20 @@ class _InscricaoDocumentoCardState extends State<InscricaoDocumentoCard> {
   @override
   void initState() {
     inscricaoDocumento = widget.inscricaoDocumento;
+    setState(() {
+      _load = loadArquivo();
+    });
     super.initState();
+  }
+
+  Future<void> loadArquivo() async {
+    if (inscricaoDocumento.arquivoId == null) return;
+
+    final info = await _arquivoService.getInfo(inscricaoDocumento.arquivoId!);
+
+    setState(() {
+      arquivo = info;
+    });
   }
 
   void uploadAnexo() async {
@@ -38,7 +57,8 @@ class _InscricaoDocumentoCardState extends State<InscricaoDocumentoCard> {
         await FilePicker.platform.pickFiles(dialogTitle: 'Escolher anexo');
 
     if (files != null && files.count > 1) {
-      final snackBar = buildSnackBar('Só é permitido anexar um arquivo por documento.');
+      final snackBar =
+          buildSnackBar('Só é permitido anexar um arquivo por documento.');
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     }
@@ -47,7 +67,7 @@ class _InscricaoDocumentoCardState extends State<InscricaoDocumentoCard> {
     final file = File(platformFile.path!);
 
     upload = _arquivoService
-        .upload(await file.readAsBytes(), platformFile.name, (count, total) {})
+        .upload(await file.readAsBytes(), platformFile.name, null)
         .then(setArquivo);
   }
 
@@ -67,6 +87,7 @@ class _InscricaoDocumentoCardState extends State<InscricaoDocumentoCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.only(top: 5, bottom: 5),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
@@ -81,8 +102,15 @@ class _InscricaoDocumentoCardState extends State<InscricaoDocumentoCard> {
                 const SizedBox(
                   height: 10,
                 ),
-                TextNormal(
-                  text: arquivo?.nome ?? '---',
+                FutureTracker(
+                  future: _load,
+                  loading: const LoadingTile(
+                    height: 10,
+                    width: 100,
+                  ),
+                  completed: (value) => TextNormal(
+                    text: arquivo?.nome ?? '---',
+                  ),
                 )
               ],
             ),

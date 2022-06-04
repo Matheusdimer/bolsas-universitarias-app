@@ -6,14 +6,12 @@ part of 'documento.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Documento _$DocumentoFromJson(Map<String, dynamic> json) {
-  return Documento(
-    json['id'] as int?,
-    json['nome'] as String,
-    DateTime.parse(json['dataCriacao'] as String),
-    json['arquivoId'] as int?,
-  );
-}
+Documento _$DocumentoFromJson(Map json) => Documento(
+      json['id'] as int?,
+      json['nome'] as String,
+      DateTime.parse(json['dataCriacao'] as String),
+      json['arquivoId'] as int?,
+    );
 
 Map<String, dynamic> _$DocumentoToJson(Documento instance) => <String, dynamic>{
       'id': instance.id,

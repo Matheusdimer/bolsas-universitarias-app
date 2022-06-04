@@ -12,7 +12,7 @@ class Aluno {
   String nome;
   String cpf;
   DateTime? dataNascimento;
-  User usuario;
+  User? usuario;
   String? email;
   String? contato;
   Sexo sexo;

@@ -51,7 +51,7 @@ extension SituacaoInscricaoDescription on SituacaoInscricao {
 class Inscricao {
   int? id;
   Bolsa bolsa;
-  List<InscricaoDocumento> documentos;
+  List<InscricaoDocumento>? documentos;
   DateTime? dataCriacao;
   SituacaoInscricao? situacao = SituacaoInscricao.AGUARDANDO_ANALISE;
   String? motivoRetorno;

@@ -42,7 +42,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
         appBar: AppBar(
           title: const Text('Detalhes'),
         ),
-        bottomNavigationBar: bolsa.editalAtivo == true
+        bottomNavigationBar: bolsa.editalAtivo
             ? Material(
                 elevation: 10,
                 child: Padding(

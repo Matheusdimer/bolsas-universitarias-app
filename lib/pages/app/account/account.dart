@@ -38,12 +38,12 @@ class _AccountInfoState extends State<AccountInfo> {
   }
 
   _viewPicture(Aluno aluno) {
-    if (aluno.usuario.fotoId == null) {
+    if (aluno.usuario?.fotoId == null) {
       _setProfilePicture(aluno);
     } else {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return ImageScreen(
-          imageUrl: _arquivoService.getUrl(aluno.usuario.fotoId),
+          imageUrl: _arquivoService.getUrl(aluno.usuario!.fotoId),
         );
       }));
     }
@@ -56,8 +56,8 @@ class _AccountInfoState extends State<AccountInfo> {
 
     _setUploadProgress(true);
 
-    if (aluno.usuario.fotoId != null) {
-      await _arquivoService.remove(aluno.usuario.fotoId!);
+    if (aluno.usuario?.fotoId != null) {
+      await _arquivoService.remove(aluno.usuario!.fotoId!);
     }
 
     final arquivo = await _arquivoService.upload(
@@ -65,10 +65,10 @@ class _AccountInfoState extends State<AccountInfo> {
 
     _setUploadProgress(false);
 
-    aluno.usuario.fotoId = arquivo.id;
+    aluno.usuario!.fotoId = arquivo.id;
 
     _authService
-        .updateUser(aluno.usuario)
+        .updateUser(aluno.usuario!)
         .then((value) => setState(() => aluno.usuario = value));
   }
 
@@ -79,14 +79,14 @@ class _AccountInfoState extends State<AccountInfo> {
   }
 
   _removePicture(Aluno aluno) async {
-    if (aluno.usuario.fotoId != null) {
-      await _arquivoService.remove(aluno.usuario.fotoId!);
+    if (aluno.usuario?.fotoId != null) {
+      await _arquivoService.remove(aluno.usuario!.fotoId!);
     }
 
-    aluno.usuario.fotoId = null;
+    aluno.usuario?.fotoId = null;
 
     _authService
-        .updateUser(aluno.usuario)
+        .updateUser(aluno.usuario!)
         .then((value) => setState(() => aluno.usuario = value));
   }
 
@@ -124,11 +124,11 @@ class _AccountInfoState extends State<AccountInfo> {
   }
 
   bool showAvatar(Aluno aluno) {
-    return aluno.usuario.fotoId != null && !_uploadProgress;
+    return aluno.usuario?.fotoId != null && !_uploadProgress;
   }
 
   bool hasPicture(Aluno aluno) {
-    return aluno.usuario.fotoId != null;
+    return aluno.usuario?.fotoId != null;
   }
 
   @override
@@ -155,7 +155,7 @@ class _AccountInfoState extends State<AccountInfo> {
                       child: showAvatar(aluno)
                           ? Avatar(
                               imageUrl:
-                                  _arquivoService.getUrl(aluno.usuario.fotoId),
+                                  _arquivoService.getUrl(aluno.usuario!.fotoId),
                             )
                           : _uploadProgress
                               ? const AvatarLoading()

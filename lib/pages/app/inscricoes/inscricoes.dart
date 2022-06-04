@@ -50,6 +50,10 @@ class _InscricoesListState extends State<InscricoesList> {
                     type: inscricao.situacao!.badge,
                     text: inscricao.situacao!.description,
                   ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/inscricao-detail',
+                        arguments: inscricao.id);
+                  },
                 );
               },
             )
