@@ -22,8 +22,26 @@ class _InscricoesListState extends State<InscricoesList> {
 
   @override
   void initState() {
-    _inscricoes = _inscricaoService.findAll();
+    load();
     super.initState();
+  }
+
+  void load() {
+    _inscricoes = _inscricaoService.findAll();
+  }
+
+  Future<List> reload() {
+    setState(() => load());
+    return _inscricoes;
+  }
+
+  void openDetail(Inscricao inscricao) async {
+    final result = await Navigator.of(context).pushNamed(
+      '/inscricao-detail',
+      arguments: inscricao,
+    );
+
+    if (result == true) reload();
   }
 
   @override
@@ -33,29 +51,29 @@ class _InscricoesListState extends State<InscricoesList> {
       loading: const LoadingList(size: 8),
       error: buildErrorPage(context),
       completed: (inscricoes) => inscricoes.isNotEmpty
-          ? ListView.builder(
-              itemCount: inscricoes.length,
-              itemBuilder: (context, index) {
-                final inscricao = inscricoes[index];
-                return ListTile(
-                  title: TextNormalBold(text: inscricao.bolsa.nome),
-                  subtitle: TextNormal(text: inscricao.aluno.nome),
-                  leading: SizedBox(
-                    height: 50,
-                    width: 30,
-                    child: Center(
-                        child: TextNormal(text: inscricao.id.toString())),
-                  ),
-                  trailing: Badge(
-                    type: inscricao.situacao!.badge,
-                    text: inscricao.situacao!.description,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/inscricao-detail',
-                        arguments: inscricao.id);
-                  },
-                );
-              },
+          ? RefreshIndicator(
+              onRefresh: reload,
+              child: ListView.builder(
+                itemCount: inscricoes.length,
+                itemBuilder: (context, index) {
+                  final inscricao = inscricoes[index];
+                  return ListTile(
+                    title: TextNormalBold(text: inscricao.bolsa.nome),
+                    subtitle: TextNormal(text: inscricao.aluno.nome),
+                    leading: SizedBox(
+                      height: 50,
+                      width: 30,
+                      child: Center(
+                          child: TextNormal(text: inscricao.id.toString())),
+                    ),
+                    trailing: Badge(
+                      type: inscricao.situacao!.badge,
+                      text: inscricao.situacao!.description,
+                    ),
+                    onTap: () => openDetail(inscricao),
+                  );
+                },
+              ),
             )
           : const EmptyList(message: 'Nenhuma inscrição por aqui.'),
     );

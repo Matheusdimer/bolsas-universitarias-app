@@ -46,41 +46,39 @@ class EditalTile extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.all(4),
-          child: Row(
+          child: Column(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const TextNormalBold(
-                        text: 'Data de divulgação do resultado'),
-                    TextNormal(
-                      text: edital.dataResultado != null
-                          ? dateFormatter.format(edital.dataResultado!)
-                          : '---',
-                    )
-                  ],
-                ),
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TextNormalBold(
+                          text: 'Data de divulgação do resultado'),
+                      TextNormal(
+                        text: edital.dataResultado != null
+                            ? dateFormatter.format(edital.dataResultado!)
+                            : '---',
+                      )
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(4),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const TextNormalBold(text: 'Descrição'),
-                    TextNormal(text: edital.descricao)
-                  ],
-                ),
-              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TextNormalBold(text: 'Descrição'),
+                      TextNormal(text: edital.descricao)
+                    ],
+                  ),
+                ],
+              )
             ],
           ),
         ),

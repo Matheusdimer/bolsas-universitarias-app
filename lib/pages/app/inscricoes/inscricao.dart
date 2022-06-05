@@ -185,7 +185,7 @@ class _InscricaoPageState extends State<InscricaoPage> {
 
   List<Widget> buildDocumentosModelo(Inscricao inscricao) {
     return inscricao.documentos!
-        .where((element) => element.arquivoId != null)
+        .where((element) => element.documento.arquivoId != null)
         .map(
           (inscricaoDocumento) => FileCard(
             id: inscricaoDocumento.documento.arquivoId!,

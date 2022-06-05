@@ -66,4 +66,7 @@ class Inscricao {
   factory Inscricao.fromJson(final dynamic json) => _$InscricaoFromJson(json);
 
   Map toJson() => _$InscricaoToJson(this);
+
+  copy() => Inscricao(id, bolsa, documentos, dataCriacao, situacao,
+      motivoRetorno, observacoes, aluno);
 }

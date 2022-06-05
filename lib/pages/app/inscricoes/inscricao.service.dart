@@ -43,4 +43,16 @@ class InscricaoService {
         )
         .then((response) => Inscricao.fromJson(response.data));
   }
+
+  Future<Inscricao> update(Inscricao inscricao) {
+    return _http
+        .put(
+      '/inscricoes/${inscricao.id}',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_authService.token}'},
+      ),
+      data: inscricao.toJson(),
+    )
+        .then((response) => Inscricao.fromJson(response.data));
+  }
 }

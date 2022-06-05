@@ -25,7 +25,7 @@ class Badge extends StatelessWidget {
       case BadgeType.success:
         return Colors.green;
       case BadgeType.warn:
-        return Colors.yellow;
+        return Colors.amber;
       case BadgeType.info:
         return Colors.cyan;
       default:

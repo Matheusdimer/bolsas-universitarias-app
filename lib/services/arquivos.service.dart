@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:app/auth/auth.service.dart';
@@ -5,6 +6,7 @@ import 'package:app/config/constants.dart';
 import 'package:app/config/dio-config.dart';
 import 'package:app/model/arquivo.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +29,11 @@ class ArquivoService {
   final Dio _http = HttpClient().client;
   final AuthService _authService = AuthService.instance;
 
+  ArquivoService() {
+    _http.interceptors
+        .add(DioCacheManager(CacheConfig(baseUrl: _path)).interceptor);
+  }
+
   String getUrl(int? id) {
     return '$_path/$id';
   }
@@ -35,8 +42,11 @@ class ArquivoService {
     return _http
         .get(
           '${getUrl(id)}/info',
-          options: Options(
-            headers: {'Authorization': 'Bearer ${_authService.token}'},
+          options: buildConfigurableCacheOptions(
+            maxAge: const Duration(days: 5),
+            options: Options(
+              headers: {'Authorization': 'Bearer ${_authService.token}'},
+            ),
           ),
         )
         .then((value) => Arquivo.fromJson(value.data));
@@ -65,7 +75,9 @@ class ArquivoService {
 
     final path = '${directory.path}/${arquivo.nome}';
 
-    await _http.download(url, path, onReceiveProgress: progressCallback);
+    if (!File(path).existsSync()) {
+      await _http.download(url, path, onReceiveProgress: progressCallback);
+    }
 
     return OpenFile.open(path);
   }
@@ -75,7 +87,8 @@ class ArquivoService {
     return await Permission.storage.request().isGranted;
   }
 
-  Future<Arquivo> upload(Uint8List fileBytes, String name, ProgressCallback? progressCallback) async {
+  Future<Arquivo> upload(Uint8List fileBytes, String name,
+      ProgressCallback? progressCallback) async {
     final form = FormData.fromMap({
       'file': MultipartFile.fromBytes(
         fileBytes,
