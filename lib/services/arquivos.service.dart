@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:app/auth/auth.service.dart';
-import 'package:app/config/constants.dart';
-import 'package:app/config/dio-config.dart';
-import 'package:app/model/arquivo.dart';
+import 'package:bolsas_universitarias/auth/auth.service.dart';
+import 'package:bolsas_universitarias/config/constants.dart';
+import 'package:bolsas_universitarias/config/dio-config.dart';
+import 'package:bolsas_universitarias/model/arquivo.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';

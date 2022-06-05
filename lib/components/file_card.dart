@@ -1,9 +1,9 @@
-import 'package:app/components/loading-list.dart';
-import 'package:app/components/loading-tile.dart';
-import 'package:app/components/text_views.dart';
-import 'package:app/model/arquivo.dart';
-import 'package:app/services/arquivos.service.dart';
-import 'package:app/utils/snackbar.dart';
+import 'package:bolsas_universitarias/components/loading-list.dart';
+import 'package:bolsas_universitarias/components/loading-tile.dart';
+import 'package:bolsas_universitarias/components/text_views.dart';
+import 'package:bolsas_universitarias/model/arquivo.dart';
+import 'package:bolsas_universitarias/services/arquivos.service.dart';
+import 'package:bolsas_universitarias/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 

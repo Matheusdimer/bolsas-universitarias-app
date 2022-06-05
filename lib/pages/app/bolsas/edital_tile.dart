@@ -1,6 +1,6 @@
-import 'package:app/components/file_card.dart';
-import 'package:app/components/text_views.dart';
-import 'package:app/model/edital.dart';
+import 'package:bolsas_universitarias/components/file_card.dart';
+import 'package:bolsas_universitarias/components/text_views.dart';
+import 'package:bolsas_universitarias/model/edital.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

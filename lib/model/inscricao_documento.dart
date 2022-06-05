@@ -1,4 +1,4 @@
-import 'package:app/model/documento.dart';
+import 'package:bolsas_universitarias/model/documento.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'inscricao_documento.g.dart';

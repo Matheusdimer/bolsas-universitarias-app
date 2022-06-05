@@ -1,4 +1,4 @@
-import 'package:app/components/loading-tile.dart';
+import 'package:bolsas_universitarias/components/loading-tile.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

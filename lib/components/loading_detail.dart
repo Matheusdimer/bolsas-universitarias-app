@@ -1,5 +1,5 @@
-import 'package:app/components/loading-list.dart';
-import 'package:app/components/loading-tile.dart';
+import 'package:bolsas_universitarias/components/loading-list.dart';
+import 'package:bolsas_universitarias/components/loading-tile.dart';
 import 'package:flutter/material.dart';
 
 class LoadingDetail extends StatelessWidget {

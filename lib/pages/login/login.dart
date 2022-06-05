@@ -1,6 +1,6 @@
-import 'package:app/auth/auth.service.dart';
-import 'package:app/components/spinner.dart';
-import 'package:app/model/user.dart';
+import 'package:bolsas_universitarias/auth/auth.service.dart';
+import 'package:bolsas_universitarias/components/spinner.dart';
+import 'package:bolsas_universitarias/model/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,11 @@
-import 'package:app/components/badge.dart';
-import 'package:app/components/empty_list.dart';
-import 'package:app/components/error_page.dart';
-import 'package:app/components/future_tracker.dart';
-import 'package:app/components/loading-list.dart';
-import 'package:app/components/text_views.dart';
-import 'package:app/model/inscricao.dart';
-import 'package:app/pages/app/inscricoes/inscricao.service.dart';
+import 'package:bolsas_universitarias/components/badge.dart';
+import 'package:bolsas_universitarias/components/empty_list.dart';
+import 'package:bolsas_universitarias/components/error_page.dart';
+import 'package:bolsas_universitarias/components/future_tracker.dart';
+import 'package:bolsas_universitarias/components/loading-list.dart';
+import 'package:bolsas_universitarias/components/text_views.dart';
+import 'package:bolsas_universitarias/model/inscricao.dart';
+import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao.service.dart';
 import 'package:flutter/material.dart';
 
 class InscricoesList extends StatefulWidget {

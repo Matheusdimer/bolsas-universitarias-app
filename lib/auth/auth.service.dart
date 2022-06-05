@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app/config/constants.dart';
+import 'package:bolsas_universitarias/config/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

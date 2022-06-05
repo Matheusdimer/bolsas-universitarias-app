@@ -1,12 +1,12 @@
-import 'package:app/auth/auth.service.dart';
-import 'package:app/pages/app/account/address.dart';
-import 'package:app/pages/app/account/my_account.dart';
-import 'package:app/pages/app/bolsas/detail/bolsas.detail.dart';
-import 'package:app/pages/app/homepage.dart';
-import 'package:app/pages/app/inscricoes/inscricao.dart';
-import 'package:app/pages/app/inscricoes/inscricao_detail.dart';
-import 'package:app/pages/login/login.dart';
-import 'package:app/theme.dart';
+import 'package:bolsas_universitarias/auth/auth.service.dart';
+import 'package:bolsas_universitarias/pages/app/account/address.dart';
+import 'package:bolsas_universitarias/pages/app/account/my_account.dart';
+import 'package:bolsas_universitarias/pages/app/bolsas/detail/bolsas.detail.dart';
+import 'package:bolsas_universitarias/pages/app/homepage.dart';
+import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao.dart';
+import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao_detail.dart';
+import 'package:bolsas_universitarias/pages/login/login.dart';
+import 'package:bolsas_universitarias/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

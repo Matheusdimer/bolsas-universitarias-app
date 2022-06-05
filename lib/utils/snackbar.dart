@@ -1,4 +1,4 @@
-import 'package:app/components/text_views.dart';
+import 'package:bolsas_universitarias/components/text_views.dart';
 import 'package:flutter/material.dart';
 
 SnackBar buildSnackBar(String text) {

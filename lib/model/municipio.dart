@@ -1,4 +1,4 @@
-import 'package:app/model/estado.dart';
+import 'package:bolsas_universitarias/model/estado.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'municipio.g.dart';

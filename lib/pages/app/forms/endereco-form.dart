@@ -1,9 +1,9 @@
-import 'package:app/components/masks.dart';
-import 'package:app/model/endereco.dart';
-import 'package:app/model/estado.dart';
-import 'package:app/model/municipio.dart';
-import 'package:app/pages/app/account/endereco.service.dart';
-import 'package:app/utils/validators.dart';
+import 'package:bolsas_universitarias/components/masks.dart';
+import 'package:bolsas_universitarias/model/endereco.dart';
+import 'package:bolsas_universitarias/model/estado.dart';
+import 'package:bolsas_universitarias/model/municipio.dart';
+import 'package:bolsas_universitarias/pages/app/account/endereco.service.dart';
+import 'package:bolsas_universitarias/utils/validators.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 

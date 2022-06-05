@@ -1,5 +1,5 @@
-import 'package:app/model/endereco.dart';
-import 'package:app/model/user.dart';
+import 'package:bolsas_universitarias/model/endereco.dart';
+import 'package:bolsas_universitarias/model/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'aluno.g.dart';

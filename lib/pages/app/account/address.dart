@@ -1,7 +1,7 @@
-import 'package:app/components/spinner.dart';
-import 'package:app/model/endereco.dart';
-import 'package:app/pages/app/account/aluno.service.dart';
-import 'package:app/pages/app/forms/endereco-form.dart';
+import 'package:bolsas_universitarias/components/spinner.dart';
+import 'package:bolsas_universitarias/model/endereco.dart';
+import 'package:bolsas_universitarias/pages/app/account/aluno.service.dart';
+import 'package:bolsas_universitarias/pages/app/forms/endereco-form.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/aluno.dart';

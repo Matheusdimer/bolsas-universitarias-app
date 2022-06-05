@@ -1,6 +1,6 @@
-import 'package:app/components/masks.dart';
-import 'package:app/model/aluno.dart';
-import 'package:app/utils/captalize.dart';
+import 'package:bolsas_universitarias/components/masks.dart';
+import 'package:bolsas_universitarias/model/aluno.dart';
+import 'package:bolsas_universitarias/utils/captalize.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

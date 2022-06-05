@@ -1,4 +1,4 @@
-import 'package:app/model/municipio.dart';
+import 'package:bolsas_universitarias/model/municipio.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'endereco.g.dart';

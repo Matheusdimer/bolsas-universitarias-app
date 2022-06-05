@@ -1,6 +1,6 @@
-import 'package:app/auth/auth.service.dart';
-import 'package:app/config/dio-config.dart';
-import 'package:app/model/bolsa.dart';
+import 'package:bolsas_universitarias/auth/auth.service.dart';
+import 'package:bolsas_universitarias/config/dio-config.dart';
+import 'package:bolsas_universitarias/model/bolsa.dart';
 import 'package:dio/dio.dart';
 
 enum TipoBolsa { federal, municipal, estadual, institucional }

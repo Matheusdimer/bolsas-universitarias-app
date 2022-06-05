@@ -1,5 +1,5 @@
-import 'package:app/components/badge.dart';
-import 'package:app/model/inscricao_documento.dart';
+import 'package:bolsas_universitarias/components/badge.dart';
+import 'package:bolsas_universitarias/model/inscricao_documento.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'aluno.dart';

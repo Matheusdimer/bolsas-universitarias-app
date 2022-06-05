@@ -1,12 +1,12 @@
-import 'package:app/components/badge.dart';
-import 'package:app/components/error_page.dart';
-import 'package:app/components/future_tracker.dart';
-import 'package:app/components/loading-list.dart';
-import 'package:app/components/loading-tile.dart';
-import 'package:app/components/text_views.dart';
-import 'package:app/model/bolsa.dart';
-import 'package:app/pages/app/bolsas/bolsas.service.dart';
-import 'package:app/services/arquivos.service.dart';
+import 'package:bolsas_universitarias/components/badge.dart';
+import 'package:bolsas_universitarias/components/error_page.dart';
+import 'package:bolsas_universitarias/components/future_tracker.dart';
+import 'package:bolsas_universitarias/components/loading-list.dart';
+import 'package:bolsas_universitarias/components/loading-tile.dart';
+import 'package:bolsas_universitarias/components/text_views.dart';
+import 'package:bolsas_universitarias/model/bolsa.dart';
+import 'package:bolsas_universitarias/pages/app/bolsas/bolsas.service.dart';
+import 'package:bolsas_universitarias/services/arquivos.service.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

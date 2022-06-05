@@ -1,7 +1,7 @@
-import 'package:app/auth/auth.service.dart';
-import 'package:app/config/dio-config.dart';
-import 'package:app/model/inscricao.dart';
-import 'package:app/pages/app/account/aluno.service.dart';
+import 'package:bolsas_universitarias/auth/auth.service.dart';
+import 'package:bolsas_universitarias/config/dio-config.dart';
+import 'package:bolsas_universitarias/model/inscricao.dart';
+import 'package:bolsas_universitarias/pages/app/account/aluno.service.dart';
 import 'package:dio/dio.dart';
 
 class InscricaoService {

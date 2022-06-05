@@ -1,6 +1,6 @@
-import 'package:app/model/documento.dart';
-import 'package:app/model/edital.dart';
-import 'package:app/model/requisito.dart';
+import 'package:bolsas_universitarias/model/documento.dart';
+import 'package:bolsas_universitarias/model/edital.dart';
+import 'package:bolsas_universitarias/model/requisito.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'bolsa.g.dart';
