@@ -137,6 +137,7 @@ class _InscricaoDocumentoCardState extends State<InscricaoDocumentoCard> {
                 loading: const SizedBox(
                   child: CircularProgressIndicator(),
                   height: 25,
+                  width: 25,
                 ),
                 completed: (value) => IconButton(
                   icon: const Icon(Icons.attach_file),
