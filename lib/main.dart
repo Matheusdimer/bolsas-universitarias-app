@@ -2,6 +2,7 @@ import 'package:bolsas_universitarias/auth/auth.service.dart';
 import 'package:bolsas_universitarias/pages/app/account/address.dart';
 import 'package:bolsas_universitarias/pages/app/account/my_account.dart';
 import 'package:bolsas_universitarias/pages/app/bolsas/detail/bolsas.detail.dart';
+import 'package:bolsas_universitarias/pages/app/bolsas/detail/editais.dart';
 import 'package:bolsas_universitarias/pages/app/homepage.dart';
 import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao.dart';
 import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao_detail.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/account': (context) => const MyAccountPage(),
         '/address': (context) => const AddressPage(),
         '/details': (context) => const BolsasDetail(),
+        '/editais': (context) => const EditaisPage(),
         '/inscrever-se': (context) => const InscricaoPage(),
         '/inscricao-detail': (context) => const InscricaoDetail(),
       },

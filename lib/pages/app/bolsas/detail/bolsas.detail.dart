@@ -22,17 +22,23 @@ class _BolsasDetailState extends State<BolsasDetail> {
   final _service = BolsasService();
   final _arquivoService = ArquivoService();
 
-  _loadBolsa(int id) {
-    return _service.find(id);
+  Bolsa? _bolsa;
+
+  Future<Bolsa> _loadBolsa(int id) async {
+    return _bolsa = await _service.find(id);
   }
 
-  _openInscricao(Bolsa bolsa) {
+  void _openInscricao(Bolsa bolsa) {
     if (bolsa.tipoInscricao == TipoInscricao.EXTERNA && bolsa.url != null) {
       final url = Uri.parse(bolsa.url!);
       launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       Navigator.of(context).pushNamed('/inscrever-se', arguments: bolsa.id);
     }
+  }
+
+  void _openEditais() {
+    Navigator.of(context).pushNamed('/editais', arguments: _bolsa?.editais);
   }
 
   @override
@@ -42,6 +48,17 @@ class _BolsasDetailState extends State<BolsasDetail> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Detalhes'),
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  child: Text('Editais'),
+                  value: 0,
+                ),
+              ],
+              onSelected: (value) => _openEditais(),
+            ),
+          ],
         ),
         bottomNavigationBar: bolsa.editalAtivo
             ? Material(

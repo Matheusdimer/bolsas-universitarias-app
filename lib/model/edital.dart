@@ -18,4 +18,9 @@ class Edital {
   factory Edital.fromJson(final dynamic json) => _$EditalFromJson(json);
 
   Map toJson() => _$EditalToJson(this);
+
+  bool get atual {
+    final now = DateTime.now();
+    return dataInicio.isBefore(now) && now.isBefore(dataFim);
+  }
 }
