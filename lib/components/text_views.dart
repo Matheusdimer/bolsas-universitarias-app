@@ -49,7 +49,7 @@ class TextNormal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(fontSize: normal),
+      style: TextStyle(fontSize: normal, color: Colors.grey.shade900),
     );
   }
 }
@@ -80,6 +80,7 @@ class TextNormalBold extends StatelessWidget {
       style: const TextStyle(
         fontSize: normal,
         fontWeight: FontWeight.bold,
+        color: Colors.black
       ),
     );
   }

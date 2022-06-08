@@ -36,4 +36,8 @@ class AlunoService {
       }),
     ).then((value) async => _aluno = await findAluno());
   }
+
+  void clearAluno() {
+    _aluno = null;
+  }
 }

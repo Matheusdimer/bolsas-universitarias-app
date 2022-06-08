@@ -1,11 +1,12 @@
-import 'package:bolsas_universitarias/components/badge.dart';
 import 'package:bolsas_universitarias/components/error_page.dart';
 import 'package:bolsas_universitarias/components/future_tracker.dart';
+import 'package:bolsas_universitarias/components/loading_detail.dart';
 import 'package:bolsas_universitarias/components/spinner.dart';
 import 'package:bolsas_universitarias/components/text_views.dart';
 import 'package:bolsas_universitarias/model/inscricao.dart';
 import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao.service.dart';
 import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao_documento_card.dart';
+import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao_info.dart';
 import 'package:bolsas_universitarias/utils/snackbar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,10 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
     });
   }
 
+  bool isAguardandoCorrecao(Inscricao inscricao) {
+    return inscricao.situacao == SituacaoInscricao.AGUARDANDO_CORRECAO;
+  }
+
   @override
   Widget build(BuildContext context) {
     final inscricao = ModalRoute.of(context)!.settings.arguments as Inscricao;
@@ -55,32 +60,15 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
       appBar: AppBar(title: const Text('Inscrição')),
       body: FutureTracker<Inscricao>(
         future: _inscricaoService.find(inscricao.id!),
+        loading: const LoadingDetail(),
         completed: (inscricao) => SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const TextNormalBold(text: 'Código: '),
-                        Badge(
-                          type: BadgeType.white,
-                          text: inscricao.id!.toString(),
-                        ),
-                      ],
-                    ),
-                    Badge(
-                      type: inscricao.situacao!.badge,
-                      text: inscricao.situacao!.description,
-                    )
-                  ],
-                ),
-                if (inscricao.situacao ==
-                    SituacaoInscricao.AGUARDANDO_CORRECAO) ...[
+                InscricaoInfo(inscricao: inscricao),
+                if (isAguardandoCorrecao(inscricao)) ...[
                   const SizedBox(height: 20),
                   const TextNormal(
                     text: 'Sua inscrição foi retornada pelo(a) assistente'
@@ -97,7 +85,7 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
                 const SizedBox(height: 20),
                 const TextSubTitle(text: 'Observações do aluno'),
                 const SizedBox(height: 10),
-                if (inscricao.situacao == SituacaoInscricao.AGUARDANDO_CORRECAO)
+                if (isAguardandoCorrecao(inscricao))
                   TextFormField(
                     maxLines: 3,
                     decoration: const InputDecoration(
@@ -112,7 +100,7 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
                 const TextSubTitle(text: 'Documentos'),
                 const SizedBox(height: 10),
                 ...buildDocumentosList(inscricao),
-                if (inscricao.situacao == SituacaoInscricao.AGUARDANDO_CORRECAO)
+                if (isAguardandoCorrecao(inscricao))
                   ElevatedButton(
                     onPressed: () => retornarAnalise(inscricao),
                     child: FutureTracker<void>(
@@ -137,7 +125,7 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
       inscricao.documentos?.length ?? 0,
       (index) => InscricaoDocumentoCard(
         inscricaoDocumento: inscricao.documentos![index],
-        disabled: inscricao.situacao != SituacaoInscricao.AGUARDANDO_CORRECAO,
+        disabled: !isAguardandoCorrecao(inscricao),
       ),
     );
   }

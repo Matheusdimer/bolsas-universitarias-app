@@ -2,7 +2,6 @@ import 'package:bolsas_universitarias/auth/auth.service.dart';
 import 'package:bolsas_universitarias/components/alert_dialog.dart';
 import 'package:bolsas_universitarias/components/error_page.dart';
 import 'package:bolsas_universitarias/components/future_tracker.dart';
-import 'package:bolsas_universitarias/components/loading-list.dart';
 import 'package:bolsas_universitarias/model/aluno.dart';
 import 'package:bolsas_universitarias/pages/app/account/aluno.service.dart';
 import 'package:bolsas_universitarias/pages/app/account/tile_button.dart';
@@ -32,6 +31,7 @@ class _AccountInfoState extends State<AccountInfo> {
 
   void _logout(BuildContext context) async {
     await _authService.logout();
+    _alunoService.clearAluno();
     final navigator = Navigator.of(context);
     navigator.pop();
     navigator.popAndPushNamed('/login');
@@ -50,7 +50,10 @@ class _AccountInfoState extends State<AccountInfo> {
   }
 
   _setProfilePicture(Aluno aluno) async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    );
 
     if (image == null) return;
 
@@ -135,9 +138,7 @@ class _AccountInfoState extends State<AccountInfo> {
   Widget build(BuildContext context) {
     return FutureTracker<Aluno>(
       future: _aluno,
-      loading: const CustomShimmer(
-        child: Center(child: CircularProgressIndicator()),
-      ),
+      loading: const Center(child: CircularProgressIndicator()),
       error: buildErrorPage(context),
       completed: (aluno) => SingleChildScrollView(
         child: Column(

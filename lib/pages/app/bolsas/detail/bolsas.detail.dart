@@ -9,6 +9,7 @@ import 'package:bolsas_universitarias/pages/app/bolsas/bolsas.service.dart';
 import 'package:bolsas_universitarias/services/arquivos.service.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:bolsas_universitarias/utils/captalize.dart';
 
 class BolsasDetail extends StatefulWidget {
   const BolsasDetail({Key? key}) : super(key: key);
@@ -82,11 +83,12 @@ class _BolsasDetailState extends State<BolsasDetail> {
                           TextTitle(text: bolsa.nome),
                           Badge(
                             text: bolsa.editalAtivo
-                                ? 'DISPONÍVEL'
-                                : 'INDISPONÍVEL',
+                                ? 'Disponível'
+                                : 'Indisponível',
                             type: bolsa.editalAtivo
                                 ? BadgeType.success
                                 : BadgeType.error,
+                            style: BadgeStyle.badge,
                             fontSize: 14,
                           ),
                         ],
@@ -100,7 +102,10 @@ class _BolsasDetailState extends State<BolsasDetail> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const TextNormalBold(text: 'Tipo da bolsa'),
-                          Badge(type: BadgeType.info, text: bolsa.tipoBolsa),
+                          Badge(
+                            type: BadgeType.info,
+                            text: bolsa.tipoBolsa.capitalize(),
+                          ),
                         ],
                       ),
                       const CustomDivider(
@@ -133,8 +138,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
                         )
                       else
                         const Center(
-                          child: TextNormal(
-                              text: "Nenhum requisito por aqui."),
+                          child: TextNormal(text: "Nenhum requisito por aqui."),
                         ),
                       const CustomDivider(
                         height: 40,

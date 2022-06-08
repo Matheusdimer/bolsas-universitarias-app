@@ -7,6 +7,7 @@ import 'package:bolsas_universitarias/components/text_views.dart';
 import 'package:bolsas_universitarias/model/bolsa.dart';
 import 'package:bolsas_universitarias/pages/app/bolsas/bolsas.service.dart';
 import 'package:bolsas_universitarias/services/arquivos.service.dart';
+import 'package:bolsas_universitarias/utils/captalize.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -93,12 +94,10 @@ class _BolsasListState extends State<BolsasList> {
                     ),
                   ),
                   Badge(
-                    text: bolsa.editalAtivo == true
-                        ? 'DISPONÍVEL'
-                        : 'INDISPONÍVEL',
-                    type: bolsa.editalAtivo == true
-                        ? BadgeType.success
-                        : BadgeType.error,
+                    text: bolsa.editalAtivo ? 'Disponível' : 'Indisponível',
+                    type:
+                        bolsa.editalAtivo ? BadgeType.success : BadgeType.error,
+                    style: BadgeStyle.badge,
                     fontSize: 14,
                   ),
                 ],
@@ -118,7 +117,10 @@ class _BolsasListState extends State<BolsasList> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const TextSmallBold(text: 'Tipo da bolsa'),
-                    Badge(type: BadgeType.info, text: bolsa.tipoBolsa),
+                    Badge(
+                      type: BadgeType.info,
+                      text: bolsa.tipoBolsa.capitalize(),
+                    ),
                   ],
                 ),
               ],
@@ -127,7 +129,8 @@ class _BolsasListState extends State<BolsasList> {
               alignment: MainAxisAlignment.start,
               children: [
                 TextButton(
-                  onPressed: bolsa.editalAtivo ? () => _openInscricao(bolsa) : null,
+                  onPressed:
+                      bolsa.editalAtivo ? () => _openInscricao(bolsa) : null,
                   child: const Text('INSCREVER-SE'),
                 ),
                 TextButton(

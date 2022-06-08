@@ -3,9 +3,9 @@ import 'package:bolsas_universitarias/components/empty_list.dart';
 import 'package:bolsas_universitarias/components/error_page.dart';
 import 'package:bolsas_universitarias/components/future_tracker.dart';
 import 'package:bolsas_universitarias/components/loading-list.dart';
-import 'package:bolsas_universitarias/components/text_views.dart';
 import 'package:bolsas_universitarias/model/inscricao.dart';
 import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao.service.dart';
+import 'package:bolsas_universitarias/pages/app/inscricoes/inscricao_info.dart';
 import 'package:flutter/material.dart';
 
 class InscricoesList extends StatefulWidget {
@@ -57,20 +57,25 @@ class _InscricoesListState extends State<InscricoesList> {
                 itemCount: inscricoes.length,
                 itemBuilder: (context, index) {
                   final inscricao = inscricoes[index];
-                  return ListTile(
-                    title: TextNormalBold(text: inscricao.bolsa.nome),
-                    subtitle: TextNormal(text: inscricao.aluno.nome),
-                    leading: SizedBox(
-                      height: 50,
-                      width: 30,
-                      child: Center(
-                          child: TextNormal(text: inscricao.id.toString())),
+                  return Card(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                            width: 3,
+                            color: Badge.getColor(inscricao.situacao!.badge),
+                          ),
+                        ),
+                      ),
+                      child: InkWell(
+                        onTap: () => openDetail(inscricao),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: InscricaoInfo(inscricao: inscricao),
+                        ),
+                      ),
                     ),
-                    trailing: Badge(
-                      type: inscricao.situacao!.badge,
-                      text: inscricao.situacao!.description,
-                    ),
-                    onTap: () => openDetail(inscricao),
                   );
                 },
               ),
