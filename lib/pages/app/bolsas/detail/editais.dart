@@ -36,7 +36,7 @@ class EditaisPage extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: EditalTile(edital: editais[index]),
+                child: EditalTile(edital: editais[index], flat: true),
               ),
             ),
           ),

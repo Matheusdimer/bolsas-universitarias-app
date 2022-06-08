@@ -9,10 +9,12 @@ class EditalTile extends StatelessWidget {
   EditalTile({
     Key? key,
     required this.edital,
+    this.flat = false,
   }) : super(key: key);
 
   final DateFormat dateFormatter = DateFormat('dd/MM/yyyy');
   final Edital edital;
+  final bool flat;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +93,11 @@ class EditalTile extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         if (edital.arquivoId != null)
-          FileCard(id: edital.arquivoId!, description: 'Documento do edital'),
+          FileCard(
+            id: edital.arquivoId!,
+            description: 'Documento do edital',
+            flat: flat,
+          ),
       ],
     );
   }

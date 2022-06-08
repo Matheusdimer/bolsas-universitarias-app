@@ -63,6 +63,7 @@ class _InscricaoPageState extends State<InscricaoPage> {
   }
 
   void saveInscricao(Inscricao inscricao) {
+    Navigator.of(context).pop();
     inscricao.dataCriacao = DateTime.now();
 
     saveFuture = _alunoService
@@ -162,6 +163,9 @@ class _InscricaoPageState extends State<InscricaoPage> {
                         SizedBox(
                           height: 50,
                           child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size.fromHeight(50),
+                            ),
                             onPressed: () => save(inscricao),
                             child: FutureTracker<void>(
                               future: _saveFuture,

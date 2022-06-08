@@ -13,13 +13,15 @@ class FileCard extends StatefulWidget {
   final int id;
   final String description;
   final FileCardType type;
+  final bool flat;
 
-  const FileCard(
-      {Key? key,
-      required this.id,
-      required this.description,
-      this.type = FileCardType.list})
-      : super(key: key);
+  const FileCard({
+    Key? key,
+    required this.id,
+    required this.description,
+    this.type = FileCardType.list,
+    this.flat = false,
+  }) : super(key: key);
 
   @override
   State<FileCard> createState() => _FileCardState();
@@ -69,34 +71,41 @@ class _FileCardState extends State<FileCard> {
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
+      elevation: widget.flat ? 0 : null,
       child: InkWell(
-        onTap: _download,
-        child: widget.type == FileCardType.grid
-            ? buildGridCard()
-            : ListTile(
-                title: TextSmallBold(
-                  text: widget.description,
-                ),
-                subtitle: buildSubtitle(),
-                leading: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Container(
-                    height: double.infinity,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.grey.shade200),
-                    child: downloadProgress == null
-                        ? Icon(
-                            _service.getIcon(arquivo?.extensao),
-                          )
-                        : CircularProgressIndicator(
-                            value: downloadProgress,
-                          ),
+          onTap: _download,
+          child: Container(
+            decoration: widget.flat
+                ? BoxDecoration(
+                    border: Border.all(color: const Color(0xDDDDDDDD)),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)))
+                : null,
+            child: widget.type == FileCardType.grid
+                ? buildGridCard()
+                : ListTile(
+                    title: TextSmallBold(
+                      text: widget.description,
+                    ),
+                    subtitle: buildSubtitle(),
+                    leading: Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 4),
+                      child: Container(
+                        height: double.infinity,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: Colors.grey.shade200),
+                        child: downloadProgress == null
+                            ? Icon(
+                                _service.getIcon(arquivo?.extensao),
+                              )
+                            : CircularProgressIndicator(
+                                value: downloadProgress,
+                              ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-      ),
+          )),
     );
   }
 
