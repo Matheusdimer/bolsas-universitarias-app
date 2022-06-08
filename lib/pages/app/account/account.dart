@@ -52,7 +52,7 @@ class _AccountInfoState extends State<AccountInfo> {
   _setProfilePicture(Aluno aluno) async {
     final XFile? image = await _picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 50,
+      imageQuality: 25,
     );
 
     if (image == null) return;

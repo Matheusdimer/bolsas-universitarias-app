@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bolsas_universitarias/config/constants.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/foundation.dart';
 
 _parseAndDecode(String response) {
@@ -26,6 +27,9 @@ class HttpClient {
         contentType: ContentType.json.value,
       ),
     );
+
+    _http.interceptors
+        .add(DioCacheManager(CacheConfig(baseUrl: apiUrl)).interceptor);
   }
 
   Dio get client => _http;

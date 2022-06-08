@@ -29,11 +29,6 @@ class ArquivoService {
   final Dio _http = HttpClient().client;
   final AuthService _authService = AuthService.instance;
 
-  ArquivoService() {
-    _http.interceptors
-        .add(DioCacheManager(CacheConfig(baseUrl: _path)).interceptor);
-  }
-
   String getUrl(int? id) {
     return '$_path/$id';
   }
