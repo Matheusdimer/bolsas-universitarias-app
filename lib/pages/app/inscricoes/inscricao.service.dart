@@ -18,7 +18,7 @@ class InscricaoService {
           ),
         )
         .then((response) =>
-            response.data?.map((e) => Inscricao.fromJson(e)).toList() ?? []));
+            response.data?.map(Inscricao.fromJson).toList() ?? []));
   }
 
   Future<Inscricao> find(int id) {

@@ -23,7 +23,7 @@ class EnderecoService {
           ),
         )
         .then((value) =>
-            (value.data as List).map((e) => Estado.fromJson(e)).toList());
+            (value.data as List).map(Estado.fromJson).toList());
   }
 
   Future<List<Municipio>> getMunicipios({int? idEstado, String? filter}) {
@@ -41,6 +41,6 @@ class EnderecoService {
       ),
       queryParameters: {'nome': filter ?? ''},
     ).then((value) =>
-        (value.data as List).map((e) => Municipio.fromJson(e)).toList());
+        (value.data as List).map(Municipio.fromJson).toList());
   }
 }

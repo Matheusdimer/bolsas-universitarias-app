@@ -18,7 +18,7 @@ class BolsasService {
           ),
         )
         .then((response) =>
-            response.data?.map((e) => Bolsa.fromJson(e)).toList() ?? []);
+            response.data?.map(Bolsa.fromJson).toList() ?? []);
   }
 
   Future<Bolsa> find(int id) {
