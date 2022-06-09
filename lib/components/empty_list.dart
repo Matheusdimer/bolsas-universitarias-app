@@ -27,6 +27,7 @@ class EmptyList extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w700,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
