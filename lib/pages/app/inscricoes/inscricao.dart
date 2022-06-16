@@ -5,6 +5,7 @@ import 'package:bolsas_universitarias/components/future_tracker.dart';
 import 'package:bolsas_universitarias/components/loading_detail.dart';
 import 'package:bolsas_universitarias/components/spinner.dart';
 import 'package:bolsas_universitarias/components/text_views.dart';
+import 'package:bolsas_universitarias/model/endereco.dart';
 import 'package:bolsas_universitarias/model/inscricao.dart';
 import 'package:bolsas_universitarias/model/inscricao_documento.dart';
 import 'package:bolsas_universitarias/pages/app/account/aluno.service.dart';
@@ -43,6 +44,8 @@ class _InscricaoPageState extends State<InscricaoPage> {
     final id = ModalRoute.of(context)!.settings.arguments as int;
     final bolsa = await _bolsasService.find(id);
     final aluno = await _alunoService.aluno;
+
+    aluno.endereco ??= Endereco.empty();
 
     initialized = true;
 
