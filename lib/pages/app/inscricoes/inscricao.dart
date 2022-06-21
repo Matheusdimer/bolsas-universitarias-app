@@ -73,7 +73,6 @@ class _InscricaoPageState extends State<InscricaoPage> {
         .update(inscricao.aluno)
         .then((value) => _inscricaoService.save(inscricao))
         .then((value) {
-      Navigator.of(context).pop();
       showSnackBar(context, 'Inscrição realizada com sucesso.');
       Navigator.of(context).pop();
     });
