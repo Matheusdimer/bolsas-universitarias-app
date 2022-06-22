@@ -10,14 +10,14 @@ import 'package:open_file/open_file.dart';
 enum FileCardType { grid, list }
 
 class FileCard extends StatefulWidget {
-  final int id;
+  final int? id;
   final String description;
   final FileCardType type;
   final bool flat;
 
   const FileCard({
     Key? key,
-    required this.id,
+    this.id,
     required this.description,
     this.type = FileCardType.list,
     this.flat = false,
@@ -38,8 +38,10 @@ class _FileCardState extends State<FileCard> {
   void initState() {
     super.initState();
 
+    if (!hasArquivo()) return;
+
     _service
-        .getInfo(widget.id)
+        .getInfo(widget.id!)
         .then((value) => setState(() => arquivo = value));
   }
 
@@ -66,6 +68,8 @@ class _FileCardState extends State<FileCard> {
       downloadProgress = received / total;
     });
   }
+
+  bool hasArquivo() => widget.id != null;
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +155,10 @@ class _FileCardState extends State<FileCard> {
   }
 
   StatelessWidget buildSubtitle() {
+    if (!hasArquivo()) {
+      return const TextSmallWeak(text: 'Sem modelo');
+    }
+
     return arquivo != null
         ? TextSmallWeak(
             text: arquivo!.nome,

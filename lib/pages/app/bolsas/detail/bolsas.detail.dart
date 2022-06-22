@@ -160,7 +160,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
                       const CustomDivider(
                         height: 40,
                       ),
-                      const TextSubTitle(text: 'Documentos'),
+                      const TextSubTitle(text: 'Documentos necessários'),
                       const SizedBox(height: 20),
                       if (bolsa.documentos != null &&
                           (bolsa.documentos as List).isNotEmpty)
@@ -170,7 +170,7 @@ class _BolsasDetailState extends State<BolsasDetail> {
                             children: (bolsa.documentos ?? [])
                                 .map(
                                   (documento) => FileCard(
-                                    id: documento.arquivoId as int,
+                                    id: documento.arquivoId,
                                     description: documento.nome,
                                     type: FileCardType.grid,
                                   ),
