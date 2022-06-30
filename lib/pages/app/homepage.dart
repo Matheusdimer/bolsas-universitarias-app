@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   void _verifyLogin() {
     if (!_authService.loggedIn()) {
-      SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Navigator.of(context).popAndPushNamed('/login');
       });
     }

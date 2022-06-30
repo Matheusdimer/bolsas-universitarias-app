@@ -40,7 +40,7 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
   }
 
   void showError(error) {
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       final message = error is DioError
           ? error.response?.data['message'] ?? error.message
           : error.toString();

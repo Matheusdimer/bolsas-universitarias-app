@@ -42,7 +42,7 @@ Widget Function(dynamic error) buildErrorPage(BuildContext context) {
     print(error.stackTrace);
     if (error is DioError) {
       if (error.response?.statusCode == 401) {
-        SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           Navigator.of(context).popAndPushNamed('/login');
         });
       } else {
