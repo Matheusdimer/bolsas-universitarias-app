@@ -100,6 +100,7 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
                 const TextSubTitle(text: 'Documentos'),
                 const SizedBox(height: 10),
                 ...buildDocumentosList(inscricao),
+                const SizedBox(height: 10),
                 if (isAguardandoCorrecao(inscricao))
                   ElevatedButton(
                     onPressed: () => retornarAnalise(inscricao),
@@ -109,6 +110,9 @@ class _InscricaoDetailState extends State<InscricaoDetail> {
                       completed: (value) => const Text('RETORNAR PARA ANÁLISE'),
                       error: (error) => const Text('TENTAR NOVAMENTE'),
                       onError: showError,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size.fromHeight(50),
                     ),
                   ),
               ],
